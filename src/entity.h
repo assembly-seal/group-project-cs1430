@@ -2,12 +2,13 @@
 #define entity_h
 
 #include "point.h"
+#include "color.h"
 #include "shape.h"
 
 struct Circle {
-    point pos;
+    Point pos;
     int size;
-    color c; // TODO: ask if this naming is acceptable
+    Color c; // TODO: ask if this naming is acceptable
 };
 
 #endif // entity_h

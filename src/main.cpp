@@ -1,6 +1,6 @@
 /*
- * Author: Caden Sullivan, Jace_Prince1,
- *         Elijah_Robledo, Ava_Callais1
+ * Author: Caden Sullivan, Jace Prince,
+ *         Elijah Robledo, Ava Callais
  * Assignment Title: Group Project
  * Assignment Description: Version of Falling Balls
  * Due Date: ??/??/??
@@ -11,27 +11,17 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "entity.h"
+#include "color.h"
 #include "physics.h"
 
-void drawCircle(Circle entity, SDL_Plotter& g) {
-    point loc = entity.pos;
-    int size = entity.size;
-    color c = entity.c;
-
-	for(double i = -size; i <= size; i += 0.1){
-		for(double j = -size; j <= size; j += 0.1){
-			if(i*i + j*j <= size*size){
-				g.plotPixel(round(loc.x + i),round(loc.y + j),c);
-			}
-		}
-	}
-}
+#define SCREEN_WIDTH  600
+#define SCREEN_HEIGHT 600
 
 int main() {
 
     // Data Abstraction:
 
-    
+    int quit = 0;
 
     // Input:
     
@@ -62,30 +52,21 @@ int main() {
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    Circle c1 = {(point){100, 100}, 100, (color){100, 255, 0}};
-    Circle c2 = {(point){300, 300}, 100, (color){100, 255, 0}};
+    Circle c1 = {(Point){100, 100}, 100, (Color){100, 255, 0}};
+    Circle c2 = {(Point){300, 300}, 100, (Color){100, 255, 0}};
 
+    SDL_Event eventData;
     while (!quit) {
 
         SDL_GetMouseState( &c1.pos.x, &c1.pos.y );
 
-        //drawCircle(c1, g);
-        //drawCircle(c2, g);
-
-		if(g.kbhit()){
-			switch(toupper(g.getKey())){
-				case 'C': g.clear();
-				          break;
-			}
-		}
-
-		if(g.mouseClick()){
-			p = g.getMouseClick();
-			size = rand()%50;
-			c.R  = rand()%256;
-			c.G  = rand()%256;
-			c.B  = rand()%256;
-		}
+        while (SDL_PollEvent(&eventData)) {
+            switch (eventData.type) {
+                case SDL_QUIT:
+                    quit = true;
+                    break;
+            }
+        }
     }
 
     SDL_DestroyWindow( window );

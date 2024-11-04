@@ -11,7 +11,7 @@ struct CircleCollision {
     Circle& c2;
 };
 
-double distance(const point&, const point&);
+double distance(const Point&, const Point&);
 
 vector<CircleCollision> checkCollisions(vector<Circle>, vector<Circle>);
 void handleCollisions(vector<CircleCollision>);
