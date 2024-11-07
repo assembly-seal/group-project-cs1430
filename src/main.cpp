@@ -17,6 +17,38 @@
 #define SCREEN_WIDTH  600
 #define SCREEN_HEIGHT 600
 
+void setRectangle(SDL_Rect& rect, int x, int y, int w, int h) {
+    rect = {x, y, w, h};
+};
+
+void drawCircle(SDL_Renderer* renderer, int x_pos, int y_pos) {
+    double r = 20;
+    double t1 = r / 16;
+    int x = x_pos;
+    int y = 0;
+
+    while (x > y) {
+        SDL_Rect rect;
+
+        setRectangle(rect, -x + x_pos, y + y_pos, x * 2, 1);
+        SDL_RenderDrawRect(renderer, &rect);
+        setRectangle(rect, -y + x_pos, x + y_pos - 1, y * 2, 1);
+        SDL_RenderDrawRect(renderer, &rect);
+        setRectangle(rect, -x + x_pos, -y + y_pos, x * 2, 1);
+        SDL_RenderDrawRect(renderer, &rect);
+        setRectangle(rect, -y + x_pos, -x + y_pos + 1, y * 2, 1);
+        SDL_RenderDrawRect(renderer, &rect);
+  
+        y++;
+        t1 += y;
+        double t2 = t1 - x;
+        if (t2 >= 0) {
+            t1 = t2;
+            x--;
+        }
+    }
+}
+
 int main() {
 
     // Data Abstraction:
@@ -58,7 +90,18 @@ int main() {
     SDL_Event eventData;
     while (!quit) {
 
-        SDL_GetMouseState( &c1.pos.x, &c1.pos.y );
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        SDL_GetMouseState(&c1.pos.x, &c1.pos.y);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        drawCircle(renderer, c1.pos.x, c1.pos.y);
+
+        SDL_RenderPresent(renderer);
+
+        //Update the surface
+        SDL_UpdateWindowSurface(window);
 
         while (SDL_PollEvent(&eventData)) {
             switch (eventData.type) {
