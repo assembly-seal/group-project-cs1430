@@ -27,6 +27,7 @@ int main() {
 
     Renderer renderer;
     int quit = 0;
+    int points = 0;
 
     // Input:
 
@@ -57,7 +58,7 @@ int main() {
         for (auto& i : balls) {
             for (auto& j : monsters) {
                 if (colliding(i, j)) {
-                    
+                    points += 25;
                 }
             }
         }
