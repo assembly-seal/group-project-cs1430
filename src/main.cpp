@@ -9,73 +9,60 @@
  */
 
 #include <iostream>
-#include <SDL2/SDL.h>
-#include "entity.h"
-#include "color.h"
-#include "physics.h"
+#include "SDL_Plotter.h"
+#include "circle.h"
+#include "collision.h"
 
-#define SCREEN_WIDTH  600
-#define SCREEN_HEIGHT 600
+SDL_Rect rect;
 
-void setRectangle(SDL_Rect& rect, int x, int y, int w, int h) {
-    rect = {x, y, w, h};
-};
+
+void drawCircle(point loc, int size, color c, SDL_Plotter& g){
+	for(double i = -size; i <= size;i+=0.1){
+		for(double j = -size; j <= size; j+=0.1){
+			if(i*i + j*j <= size*size){
+				g.plotPixel(round(loc.x+i),round(loc.y+j),c);
+			}
+		}
+	}
+}
 
 int main() {
 
     // Data Abstraction:
 
-    Renderer renderer;
-    int quit = 0;
+    SDL_Plotter g(1000,1000);
+    point p1 = {100, 100}, p2 = {200, 200};
+    color c;
+    int size = 20;
+
+    vector<Circle> circles;
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++) {
+            point tempPoint = {i*10 + 300, j*10 + 300};
+            circles.push_back((Circle){tempPoint, 20, {0, 0, 255}});
+        }
+    Circle& c1 = circles[0];
+    c1.c = {255, 0, 0};
+    vector<Collision> collisions;
 
     // Input:
 
     // Process:
 
-    //Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf( "init error - SDL_Error: %s\n", SDL_GetError() );
-        return 1;
+    while (!g.getQuit())
+    {
+        g.clear();
+
+        g.getMouseLocation(c1.p.x, c1.p.y);
+
+        checkCollisions(collisions, circles, circles);
+        handleCollisions(collisions);
+
+		for (auto& i : circles)
+            drawCircle(i.p, i.r, i.c, g);
+		g.update();
     }
 
-    Circle c1 = {(Point){100, 100}, 100, (Color){100, 255, 0}};
-    Circle c2 = {(Point){300, 300}, 100, (Color){100, 255, 0}};
-
-    SDL_Event eventData;
-    while (!quit) {
-
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_RenderClear(renderer);
-
-        SDL_GetMouseState(&c1.pos.x, &c1.pos.y);
-
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        drawCircle(renderer, c1.pos.x, c1.pos.y);
-
-        SDL_RenderPresent(renderer);
-
-        for (auto& i : balls) {
-            for (auto& j : monsters) {
-                if (colliding(i, j)) {
-                    
-                }
-            }
-        }
-
-        //Update the surface
-        SDL_UpdateWindowSurface(window);
-
-        while (SDL_PollEvent(&eventData)) {
-            switch (eventData.type) {
-                case SDL_QUIT:
-                    quit = true;
-                    break;
-            }
-        }
-    }
-
-    SDL_DestroyWindow( window );
-	SDL_Quit();
     // Output:
     
     // Assumptions:
