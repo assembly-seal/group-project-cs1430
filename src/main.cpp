@@ -13,9 +13,6 @@
 #include "circle.h"
 #include "collision.h"
 
-SDL_Rect rect;
-
-
 void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	for(double i = -size; i <= size;i+=0.1){
 		for(double j = -size; j <= size; j+=0.1){
@@ -38,12 +35,14 @@ int main() {
     vector<Circle> circles;
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++) {
-            point tempPoint = {i*10 + 300, j*10 + 300};
-            circles.push_back((Circle){tempPoint, 20, {0, 0, 255}});
+            point tempPoint = {i * 30 + 300, j * 30 + 300};
+            circles.push_back((Circle){tempPoint, 10, {0, 0, 255}});
         }
     Circle& c1 = circles[0];
     c1.c = {255, 0, 0};
-    vector<Collision> collisions;
+    vector<Collision> collisions {};
+
+    int points = 0;
 
     // Input:
 
@@ -56,6 +55,7 @@ int main() {
         g.getMouseLocation(c1.p.x, c1.p.y);
 
         checkCollisions(collisions, circles, circles);
+        points += collisions.size() * 25;
         handleCollisions(collisions);
 
 		for (auto& i : circles)
@@ -64,6 +64,8 @@ int main() {
     }
 
     // Output:
+
+    cout << "SCORE: " << points << endl;
     
     // Assumptions:
     
