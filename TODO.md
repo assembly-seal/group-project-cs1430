@@ -3,9 +3,15 @@
 ## Todo list:
 
 ### (Claim a task by putting a dash and your name next to it)
-- [ ] thing 1 - Caden
-- [ ] thing 2
-- [ ] thing 3
+- [ ] Implement "levels"
+  - In this context, level simply means one revolution in the cycle of shooting a ball, letting it bounce, spawning new enemies at the bottom, and then moving them all up
+- [ ] Spawn enemies/power-ups
+- [ ] Move enemies/power-ups
+- [ ] Despawn enemies/power-ups
+- [ ] Fire projectiles
+- [ ] Physics - Caden
+- [ ] Background/scenery
+- [ ] Rendering the firing mechanism
+- [ ] Rendering all entities
 
-## Explanation of each item in the context of a single frame of the game-loop
-Blah blah blah and whatnot and such
+## Flowchart
