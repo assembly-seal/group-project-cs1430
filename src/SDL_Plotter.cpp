@@ -262,3 +262,34 @@ bool SDL_Plotter::getMouseMotion(int& x, int& y){
 void SDL_Plotter::getMouseLocation(int& x, int& y){
     SDL_GetMouseState(&x, &y);
 }
+
+/* FUNCTIONS ADDED BY CADEN */
+
+void SDL_Plotter::setRectangle(int x, int y, int w, int h) {
+    rect = {x, y, w, h};
+};
+
+void SDL_Plotter::drawCircle(int x_pos, int y_pos, int radius) {
+    double t1 = radius / 16.0;
+    int x = radius;
+    int y = 0;
+
+    while (x > y) {
+        setRectangle(-x + x_pos, y + y_pos, x * 2, 1);
+        SDL_RenderDrawRect(this->renderer, &rect);
+        setRectangle(-y + x_pos, x + y_pos - 1, y * 2, 1);
+        SDL_RenderDrawRect(this->renderer, &rect);
+        setRectangle(-x + x_pos, -y + y_pos, x * 2, 1);
+        SDL_RenderDrawRect(this->renderer, &rect);
+        setRectangle(-y + x_pos, -x + y_pos + 1, y * 2, 1);
+        SDL_RenderDrawRect(this->renderer, &rect);
+
+        y++;
+        t1 += y;
+        double t2 = t1 - x;
+        if (t2 >= 0) {
+            t1 = t2;
+            x--;
+        }
+    }
+}
