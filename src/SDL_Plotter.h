@@ -160,7 +160,7 @@ public:
 
     Uint32 getColor(int x, int y);
 
-    /* FUNCTIONS ADDED BY CADNE */
+    /* FUNCTIONS ADDED BY CADEN */
     void drawCircle(int x_pos, int y_pos, int radius);
 };
 
