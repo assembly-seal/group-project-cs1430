@@ -267,7 +267,7 @@ void SDL_Plotter::getMouseLocation(int& x, int& y){
 
 void SDL_Plotter::setRectangle(int x, int y, int w, int h) {
     rect = {x, y, w, h};
-};
+}
 
 void SDL_Plotter::drawCircle(int x_pos, int y_pos, int radius) {
     double t1 = radius / 16.0;
