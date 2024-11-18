@@ -160,6 +160,8 @@ public:
 
     Uint32 getColor(int x, int y);
 
+    /* FUNCTIONS ADDED BY CADNE */
+    void drawCircle(int x_pos, int y_pos, int radius);
 };
 
 #endif // SDL_PLOTTER_H_
