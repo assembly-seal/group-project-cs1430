@@ -13,6 +13,9 @@
 - [ ] Background/scenery
 - [ ] Rendering the firing mechanism
 - [ ] Rendering all entities
+- [ ] Title screen w/ fonts
+- [ ] End screen w/ fonts & score
+- [ ] Score at top of main game
 
 ## Flowchart
 ![Stupid flowchart](https://github.com/assembly-seal/group-project-cs1430/blob/main/flowchart.png?raw=true)
