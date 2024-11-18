@@ -125,6 +125,9 @@ private:
 
     char getKeyPress(SDL_Event & event);
 
+    /* MEMBERS ADDED BY CADEN */
+    SDL_Rect rect;
+
 public:
     SDL_Plotter(int r=480, int c=640, bool WITH_SOUND = true);
     ~SDL_Plotter();
@@ -161,6 +164,7 @@ public:
     Uint32 getColor(int x, int y);
 
     /* FUNCTIONS ADDED BY CADEN */
+    void setRectangle(int x, int y, int w, int h) {
     void drawCircle(int x_pos, int y_pos, int radius);
 };
 
