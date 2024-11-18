@@ -15,4 +15,4 @@
 - [ ] Rendering all entities
 
 ## Flowchart
-[Stupid flowchart](https://github.com/assembly-seal/group-project-cs1430/blob/main/flowchart.png?raw=true)
+![Stupid flowchart](https://github.com/assembly-seal/group-project-cs1430/blob/main/flowchart.png?raw=true)
