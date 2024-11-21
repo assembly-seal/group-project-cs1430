@@ -5,7 +5,7 @@
 ### (Claim a task by putting your name next to the task in the following format: `- **Name**`)
 - [ ] Implement "levels"
   - In this context, level simply means one revolution in the cycle of shooting a ball, letting it bounce, spawning new enemies at the bottom, and then moving them all up
-- [ ] Spawn enemies/power-ups
+- [ ] Spawn enemies/power-ups - **Jace**
 - [ ] Move enemies/power-ups
 - [ ] Despawn enemies/power-ups
 - [ ] Fire projectiles
