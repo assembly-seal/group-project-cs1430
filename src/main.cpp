@@ -70,10 +70,10 @@ int main() {
         	// Code to display title screen
         	// Press a key (for now "e") to start
 
-        	lastKey = getKey();
+        	lastKey = g.getKey();
 
         	if (lastKey == 'e') {
-        		myStatus = SHOOTING_PHASE;
+                myStatus = SHOOTING_PHASE;
         	}
 
         }
@@ -82,8 +82,10 @@ int main() {
         	points += collisions.size() * 25;
         	handleCollisions(collisions);
 
-        	for (auto& i : circles)
-        		 g.drawCircle(i.p.x, i.p.y, i.r);
+        	for (auto& i : circles) {
+                g.setColor(i.c);
+        		g.drawCircle(i.p.x, i.p.y, i.r);
+            }
 
         }
         else if (myStatus == BOUNCE_PHASE) {

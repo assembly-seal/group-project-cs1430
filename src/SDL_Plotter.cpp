@@ -265,6 +265,10 @@ void SDL_Plotter::getMouseLocation(int& x, int& y){
 
 /* FUNCTIONS ADDED BY CADEN */
 
+void SDL_Plotter::setColor(color c) {
+    SDL_SetRenderDrawColor(renderer, c.R, c.G, c.B, 255);
+}
+
 void SDL_Plotter::setRectangle(int x, int y, int w, int h) {
     rect = {x, y, w, h};
 }
