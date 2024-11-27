@@ -15,8 +15,8 @@ test test meow
 - [ ] Background/scenery - **Ava**
 - [ ] Rendering the firing mechanism - **Ava**
 - [ ] Rendering all entities - **Ava**
-- [ ] Title screen w/ fonts
-- [ ] End screen w/ fonts & score
+- [ ] Title screen w/ fonts - **Ava**
+- [ ] End screen w/ fonts & score - **Ava**
 - [ ] Score at top of main game
 
 ## Flowchart
