@@ -10,9 +10,9 @@
 - [ ] Despawn enemies/power-ups
 - [ ] Fire projectiles
 - [ ] Physics - **Caden**
-- [ ] Background/scenery
-- [ ] Rendering the firing mechanism
-- [ ] Rendering all entities
+- [ ] Background/scenery - **Ava**
+- [ ] Rendering the firing mechanism - **Ava**
+- [ ] Rendering all entities - **Ava**
 - [ ] Title screen w/ fonts
 - [ ] End screen w/ fonts & score
 - [ ] Score at top of main game
