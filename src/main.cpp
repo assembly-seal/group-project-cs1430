@@ -13,6 +13,14 @@
 #include "circle.h"
 #include "collision.h"
 
+enum GameStatus {
+	TITLE_SCREEN,
+	SHOOTING_PHASE,
+	BOUNCE_PHASE,
+	MANAGE_ENEMIES,
+	END_SCREEN
+};
+
 void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	for(double i = -size; i <= size;i+=0.1){
 		for(double j = -size; j <= size; j+=0.1){
@@ -26,20 +34,26 @@ void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 int main() {
 
     // Data Abstraction:
-
-    SDL_Plotter g(1000,1000);
+	int width = 1920;
+	int height = 1080;
+    SDL_Plotter g(width,height);
     point p1 = {100, 100}, p2 = {200, 200};
+    point spawnPoint = {width / 2, height / 2};
     color c;
     int size = 20;
+    GameStatus myStatus = TITLE_SCREEN;
+    char lastKey;
 
     vector<Circle> circles;
-    for (int i = 0; i < 3; i++)
-        for (int j = 0; j < 3; j++) {
-            point tempPoint = {i * 30 + 300, j * 30 + 300};
-            circles.push_back((Circle){tempPoint, 10, {0, 0, 255}});
-        }
+    //for (int i = 0; i < 3; i++)
+        //for (int j = 0; j < 3; j++) {
+        //    point tempPoint = {i * 30 + 300, j * 30 + 300};
+        //    circles.push_back((Circle){tempPoint, 10, {0, 0, 255}});
+    //    }
+    //Circle& c1 = circles[0];
+
+    circles.push_back((Circle){spawnPoint, 30, {0, 255, 255}});
     Circle& c1 = circles[0];
-    c1.c = {255, 0, 0};
     vector<Collision> collisions {};
 
     int points = 0;
@@ -50,17 +64,40 @@ int main() {
 
     while (!g.getQuit())
     {
-        g.clear();
+    	g.clear();
 
-        g.getMouseLocation(c1.p.x, c1.p.y);
+        if (myStatus == TITLE_SCREEN) {
+        	// Code to display title screen
+        	// Press a key (for now "e") to start
 
-        checkCollisions(collisions, circles, circles);
-        points += collisions.size() * 25;
-        handleCollisions(collisions);
+        	lastKey = getKey();
 
-		for (auto& i : circles)
-            drawCircle(i.p, i.r, i.c, g);
-		g.update();
+        	if (lastKey == 'e') {
+        		myStatus = SHOOTING_PHASE;
+        	}
+
+        }
+        else if (myStatus == SHOOTING_PHASE) {
+        	checkCollisions(collisions, circles, circles);
+        	points += collisions.size() * 25;
+        	handleCollisions(collisions);
+
+        	for (auto& i : circles)
+        		 g.drawCircle(i.p.x, i.p.y, i.r);
+
+        }
+        else if (myStatus == BOUNCE_PHASE) {
+
+        }
+        else if (myStatus == MANAGE_ENEMIES) {
+
+        }
+        else if (myStatus == END_SCREEN) {
+
+        }
+
+        g.update();
+        //g.getMouseLocation(c1.p.x, c1.p.y);
     }
 
     // Output:
