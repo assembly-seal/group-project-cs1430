@@ -164,7 +164,7 @@ public:
     Uint32 getColor(int x, int y);
 
     /* FUNCTIONS ADDED BY CADEN */
-    void setRectangle(int x, int y, int w, int h) {
+    void setRectangle(int x, int y, int w, int h);
     void drawCircle(int x_pos, int y_pos, int radius);
 };
 
