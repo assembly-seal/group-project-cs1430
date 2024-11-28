@@ -13,6 +13,8 @@
 #include "SDL_Plotter.h"
 #include "collision.h"
 
+#define TO_DEGREES (180.0/3.141592653589793238463)
+
 enum GameStatus {
 	TITLE_SCREEN,
 	SHOOTING_PHASE,
@@ -100,20 +102,18 @@ int main() {
         		g.drawCircle(i.p, i.r);
             }
 
-        	g.drawImage(arm);
-
             stupidCat.angle += 0.25;
             //g.drawImage(stupidCat);
 
             g.drawImage(projectile);
 
-            g.drawImage(arm);
+            g.drawImage(arm, {arm.rect.w / 2, 0});
 
             g.getMouseLocation(mouseX, mouseY);
 
-            angle = atan2(mouseX - arm.rect.x, mouseY - arm.rect.y);
+            angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
 
-			arm.angle = (angle * -100) + 20;
+			arm.angle = angle * TO_DEGREES - 90;
 
         }
         else if (myStatus == BOUNCE_PHASE) {
