@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include "SDL_Plotter.h"
-#include "circle.h"
 #include "collision.h"
 
 enum GameStatus {
@@ -45,10 +44,13 @@ int main() {
     char lastKey;
 
     vector<Circle> circles;
+    vector<Line> lines;
 
-    circles.push_back((Circle){spawnPoint, 30, {0, 255, 255}});
+    circles.push_back({spawnPoint, 30, {0, 255, 255}});
     Circle& c1 = circles[0];
     vector<Collision> collisions {};
+
+    lines.push_back({{100, 100}, {400, 400}});
 
     int points = 0;
 
@@ -79,6 +81,8 @@ int main() {
 
         }
         else if (myStatus == SHOOTING_PHASE) {
+
+            g.getMouseLocation(c1.p.x, c1.p.y);
 
             g.drawImage(background);
 
