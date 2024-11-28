@@ -34,11 +34,11 @@ void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 int main() {
 
     // Data Abstraction:
-	int width = 1920;
-	int height = 1080;
-    SDL_Plotter g(width,height);
+	const int WIDTH = 1080 / 2;
+	const int HEIGHT = 1920 / 2;
+    SDL_Plotter g(HEIGHT, WIDTH);
     point p1 = {100, 100}, p2 = {200, 200};
-    point spawnPoint = {width / 2.0, height / 2.0};
+    point spawnPoint = {WIDTH / 2.0, HEIGHT / 2.0};
     color c;
     int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
@@ -52,6 +52,8 @@ int main() {
 
     int points = 0;
 
+    Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
 
     // Input:
@@ -64,7 +66,10 @@ int main() {
 
         if (myStatus == TITLE_SCREEN) {
         	// Code to display title screen
-        	// Press a key (for now "e") to start
+            
+            g.drawImage(titleScreen);
+        	
+            // Press a key (for now "e") to start
 
         	lastKey = g.getKey();
 
@@ -74,6 +79,9 @@ int main() {
 
         }
         else if (myStatus == SHOOTING_PHASE) {
+
+            g.drawImage(background);
+
         	checkCollisions(collisions, circles, circles);
         	points += collisions.size() * 25;
         	handleCollisions(collisions);
