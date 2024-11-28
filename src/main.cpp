@@ -104,9 +104,9 @@ int main() {
 
             g.getMouseLocation(mouseX, mouseY);
 
-            angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x);
+            angle = atan2(mouseX - arm.rect.x, mouseY - arm.rect.y);
 
-			arm.angle += angle;
+			arm.angle = (angle * -100) + 20;
 
         }
         else if (myStatus == BOUNCE_PHASE) {
