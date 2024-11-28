@@ -9,6 +9,7 @@
  */
 
 #include <iostream>
+#include <cmath>
 #include "SDL_Plotter.h"
 #include "circle.h"
 #include "collision.h"
@@ -43,6 +44,9 @@ int main() {
     int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
     char lastKey;
+    double mouseX;
+    double mouseY;
+    double angle;
 
     vector<Circle> circles;
 
@@ -53,6 +57,7 @@ int main() {
     int points = 0;
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image arm = {g.addImage("./images/arm.png"), {150, -50, 250, 250}, 0.0};
     Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
 
@@ -91,8 +96,17 @@ int main() {
         		g.drawCircle(i.p, i.r);
             }
 
+        	g.drawImage(arm);
+
             stupidCat.angle += 0.25;
-            g.drawImage(stupidCat);
+            //g.drawImage(stupidCat);
+            g.drawImage(arm);
+
+            g.getMouseLocation(mouseX, mouseY);
+
+            angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x);
+
+			arm.angle += angle;
 
         }
         else if (myStatus == BOUNCE_PHASE) {
