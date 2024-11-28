@@ -308,6 +308,10 @@ void SDL_Plotter::drawCircle(point p, int radius) {
 	return texture;
 }
 
-void SDL_Plotter::drawImage(Image& image) {
-	SDL_RenderCopyEx(renderer, image.texture, NULL, &image.rect, image.angle, NULL, SDL_FLIP_NONE);
+void SDL_Plotter::drawImage(Image& image, SDL_Point rotation_point) {
+	SDL_RenderCopyEx(renderer, image.texture, NULL, &image.rect, image.angle, &rotation_point, SDL_FLIP_NONE);
+}
+
+void SDL_Plotter::drawLine(point p1, point p2) {
+	SDL_RenderDrawLine(renderer, p1.x, p1.y, p2.x, p2.y);
 }
