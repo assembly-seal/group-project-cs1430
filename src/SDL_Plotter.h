@@ -54,12 +54,12 @@ const int  MAX_THREAD   = 100;
 
 //Point
 struct point{
-	int x,y;
+	double x,y;
 	point(){
 		x = y = 0;
 	}
 
-	point(int x, int y){
+	point(double x, double y){
 		this->x = x;
 		this->y = y;
 	}
@@ -159,14 +159,14 @@ public:
     bool getMouseDown(int& x, int& y);
     bool getMouseUp(int& x, int& y);
     bool getMouseMotion(int& x, int& y);
-    void getMouseLocation(int& x, int& y);
+    void getMouseLocation(double& x, double& y);
 
     Uint32 getColor(int x, int y);
 
     /* FUNCTIONS ADDED BY CADEN */
     void setColor(color);
     void setRectangle(int x, int y, int w, int h);
-    void drawCircle(int x_pos, int y_pos, int radius);
+    void drawCircle(point p, int radius);
 };
 
 #endif // SDL_PLOTTER_H_

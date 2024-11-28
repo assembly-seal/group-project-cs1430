@@ -97,7 +97,10 @@ bool SDL_Plotter::getQuit(){
 		}
 		else if(event.type == SDL_MOUSEBUTTONUP){
 			point p;
-			SDL_GetMouseState( &p.x, &p.y );
+			int _x, _y;
+			SDL_GetMouseState( &_x, &_y );
+			p.x = _x;
+			p.y = _y;
 			click_queue.push(p);
 		}
 		else if(event.type == SDL_MOUSEBUTTONDOWN){
@@ -259,8 +262,11 @@ bool SDL_Plotter::getMouseMotion(int& x, int& y){
 		return flag;
 }
 
-void SDL_Plotter::getMouseLocation(int& x, int& y){
-    SDL_GetMouseState(&x, &y);
+void SDL_Plotter::getMouseLocation(double& x, double& y){
+    int _x, _y;
+    SDL_GetMouseState(&_x, &_y);
+    x = _x;
+    y = _y;
 }
 
 /* FUNCTIONS ADDED BY CADEN */
@@ -273,19 +279,19 @@ void SDL_Plotter::setRectangle(int x, int y, int w, int h) {
     rect = {x, y, w, h};
 }
 
-void SDL_Plotter::drawCircle(int x_pos, int y_pos, int radius) {
+void SDL_Plotter::drawCircle(point p, int radius) {
     double t1 = radius / 16.0;
     int x = radius;
     int y = 0;
 
     while (x > y) {
-        setRectangle(-x + x_pos, y + y_pos, x * 2, 1);
+        setRectangle(-x + p.x, y + p.y, x * 2, 1);
         SDL_RenderDrawRect(this->renderer, &rect);
-        setRectangle(-y + x_pos, x + y_pos - 1, y * 2, 1);
+        setRectangle(-y + p.x, x + p.y - 1, y * 2, 1);
         SDL_RenderDrawRect(this->renderer, &rect);
-        setRectangle(-x + x_pos, -y + y_pos, x * 2, 1);
+        setRectangle(-x + p.x, -y + p.y, x * 2, 1);
         SDL_RenderDrawRect(this->renderer, &rect);
-        setRectangle(-y + x_pos, -x + y_pos + 1, y * 2, 1);
+        setRectangle(-y + p.x, -x + p.y + 1, y * 2, 1);
         SDL_RenderDrawRect(this->renderer, &rect);
 
         y++;

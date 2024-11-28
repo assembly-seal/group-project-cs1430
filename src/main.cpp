@@ -38,7 +38,7 @@ int main() {
 	int height = 1080;
     SDL_Plotter g(width,height);
     point p1 = {100, 100}, p2 = {200, 200};
-    point spawnPoint = {width / 2, height / 2};
+    point spawnPoint = {width / 2.0, height / 2.0};
     color c;
     int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
@@ -84,7 +84,7 @@ int main() {
 
         	for (auto& i : circles) {
                 g.setColor(i.c);
-        		g.drawCircle(i.p.x, i.p.y, i.r);
+        		g.drawCircle(i.p, i.r);
             }
 
         }
