@@ -3,8 +3,10 @@
 
 #include <vector>
 #include <cmath>
+#include <algorithm>
 #include "SDL_Plotter.h"
-#include "circle.h"
+#include "distance.h"
+#include "shape.h"
 using namespace std;
 
 struct Collision {
@@ -16,10 +18,16 @@ struct Collision {
     double overlap;
 };
 
-double getDistance(int, int);
-double getDistance(const point&, const point&);
-bool areColliding(const Circle&, const Circle&);
+struct LineCollision {
+    Circle& c;
+    point p;
+};
+
+bool areColliding(Circle& i, point& j);
+bool areColliding(Circle& i, Circle& j);
 void checkCollisions(vector<Collision>&, vector<Circle>&, vector<Circle>&);
+void checkCollisions(vector<LineCollision>&, vector<Circle>&, vector<Line>&);
 void handleCollisions(vector<Collision>&);
+void handleCollisions(vector<LineCollision>&);
 
 #endif // collision_h
