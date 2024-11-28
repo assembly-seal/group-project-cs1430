@@ -9,6 +9,7 @@
  */
 
 #include <iostream>
+#include <cmath>
 #include "SDL_Plotter.h"
 #include "collision.h"
 
@@ -37,11 +38,14 @@ int main() {
 	const int HEIGHT = 1920 / 2;
     SDL_Plotter g(HEIGHT, WIDTH);
     point p1 = {100, 100}, p2 = {200, 200};
-    point spawnPoint = {WIDTH / 2.0, HEIGHT / 2.0};
+    point spawnPoint = {WIDTH / 2.0, 130};
     color c;
     int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
     char lastKey;
+    double mouseX;
+    double mouseY;
+    double angle;
 
     vector<Circle> circles;
     vector<Line> lines;
@@ -55,9 +59,10 @@ int main() {
     int points = 0;
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
     Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
-
+    Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 60, 60}, 0.0};
     // Input:
 
     // Process:
@@ -95,8 +100,20 @@ int main() {
         		g.drawCircle(i.p, i.r);
             }
 
+        	g.drawImage(arm);
+
             stupidCat.angle += 0.25;
-            g.drawImage(stupidCat);
+            //g.drawImage(stupidCat);
+
+            g.drawImage(projectile);
+
+            g.drawImage(arm);
+
+            g.getMouseLocation(mouseX, mouseY);
+
+            angle = atan2(mouseX - arm.rect.x, mouseY - arm.rect.y);
+
+			arm.angle = (angle * -100) + 20;
 
         }
         else if (myStatus == BOUNCE_PHASE) {
