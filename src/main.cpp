@@ -52,7 +52,7 @@ int main() {
 
     int points = 0;
 
-    Image stupidCat = {g.addImage("./images/Gakster.png"), {0, 0, 100, 200}};
+    Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
 
     // Input:
 
@@ -83,7 +83,8 @@ int main() {
         		g.drawCircle(i.p, i.r);
             }
 
-            g.drawImage(stupidCat, 90.0);
+            stupidCat.angle += 0.25;
+            g.drawImage(stupidCat);
 
         }
         else if (myStatus == BOUNCE_PHASE) {

@@ -167,8 +167,7 @@ public:
     void setColor(color);
     void drawCircle(point, int);
     SDL_Texture* addImage(const char*);
-    void drawImage(Image&, double);
-    void rotateImage(Image&, double);
+    void drawImage(Image&);
 };
 
 #endif // SDL_PLOTTER_H_

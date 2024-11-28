@@ -7,6 +7,7 @@
 struct Image {
     SDL_Texture* texture;
     SDL_Rect rect;
+    double angle;
 };
 
 #endif // image_h
