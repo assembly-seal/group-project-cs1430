@@ -6,7 +6,7 @@
 struct Circle {
     point p;
     int r;
-    color c; // TODO: ask if this naming is acceptable
+    color c;
 };
 
 #endif // circle_h

@@ -303,3 +303,16 @@ void SDL_Plotter::drawCircle(point p, int radius) {
         }
     }
 }
+
+SDL_Texture* SDL_Plotter::addImage(const char* imagePath) {
+	SDL_Surface* surface = IMG_Load(imagePath);
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	textures.push_back(texture);
+	SDL_FreeSurface(surface);
+	return texture;
+}
+
+void SDL_Plotter::drawImage(SDL_Texture* texture, int x, int y, int w, int h, double angle = 0) {
+	setRectangle(x, y, w, h);
+	SDL_RenderCopy(renderer, texture, NULL, &rect);
+}

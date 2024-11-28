@@ -27,6 +27,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_thread.h>
+#include <SDL2/SDL_image.h>
 
 //Windows Library
 //#include <SDL2/SDL.h>
@@ -38,6 +39,7 @@
 #include <string.h>
 #include <map>
 #include <queue>
+#include <vector>
 using namespace std;
 
 const char UP_ARROW    = 1;
@@ -111,6 +113,7 @@ private:
     SDL_Event    event;
     int          row, col;
     bool         quit;
+    vector<SDL_Texture*> textures;
 
     //Keyboard Stuff
     queue<char> key_queue;
@@ -165,8 +168,10 @@ public:
 
     /* FUNCTIONS ADDED BY CADEN */
     void setColor(color);
-    void setRectangle(int x, int y, int w, int h);
-    void drawCircle(point p, int radius);
+    void setRectangle(int, int, int, int);
+    void drawCircle(point, int);
+    SDL_Texture* addImage(const char*);
+    void drawImage(SDL_Texture*, int, int, int, int, double);
 };
 
 #endif // SDL_PLOTTER_H_

@@ -62,6 +62,8 @@ int main() {
 
     // Process:
 
+    SDL_Texture* stupidCat = g.addImage("./images/Gakster.png");
+
     while (!g.getQuit())
     {
     	g.clear();
@@ -86,6 +88,8 @@ int main() {
                 g.setColor(i.c);
         		g.drawCircle(i.p, i.r);
             }
+
+            g.drawImage(stupidCat, 100, 100, 200, 200, 0.0);
 
         }
         else if (myStatus == BOUNCE_PHASE) {
