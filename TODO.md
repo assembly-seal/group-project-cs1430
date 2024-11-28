@@ -13,7 +13,7 @@ test test meow
 - [ ] Despawn enemies/power-ups - **Jace**
 - [ ] Fire projectiles
 - [ ] Physics - **Caden**
-- [ ] Background/scenery - **Ava**
+- [X] Background/scenery
 - [ ] Rendering the firing mechanism - **Ava**
 - [ ] Rendering all entities - **Ava**
 - [ ] Title screen w/ fonts - **Ava**
