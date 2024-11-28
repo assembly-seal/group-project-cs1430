@@ -45,12 +45,6 @@ int main() {
     char lastKey;
 
     vector<Circle> circles;
-    //for (int i = 0; i < 3; i++)
-        //for (int j = 0; j < 3; j++) {
-        //    point tempPoint = {i * 30 + 300, j * 30 + 300};
-        //    circles.push_back((Circle){tempPoint, 10, {0, 0, 255}});
-    //    }
-    //Circle& c1 = circles[0];
 
     circles.push_back((Circle){spawnPoint, 30, {0, 255, 255}});
     Circle& c1 = circles[0];
@@ -58,11 +52,11 @@ int main() {
 
     int points = 0;
 
+    SDL_Texture* stupidCat = g.addImage("./images/Gakster.png");
+
     // Input:
 
     // Process:
-
-    SDL_Texture* stupidCat = g.addImage("./images/Gakster.png");
 
     while (!g.getQuit())
     {
