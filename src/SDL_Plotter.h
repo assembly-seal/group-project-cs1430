@@ -40,6 +40,7 @@
 #include <map>
 #include <queue>
 #include <vector>
+#include "image.h"
 using namespace std;
 
 const char UP_ARROW    = 1;
@@ -113,7 +114,6 @@ private:
     SDL_Event    event;
     int          row, col;
     bool         quit;
-    vector<SDL_Texture*> textures;
 
     //Keyboard Stuff
     queue<char> key_queue;
@@ -127,9 +127,6 @@ private:
     map<string, param> soundMap;
 
     char getKeyPress(SDL_Event & event);
-
-    /* MEMBERS ADDED BY CADEN */
-    SDL_Rect rect;
 
 public:
     SDL_Plotter(int r=480, int c=640, bool WITH_SOUND = true);
@@ -168,10 +165,10 @@ public:
 
     /* FUNCTIONS ADDED BY CADEN */
     void setColor(color);
-    void setRectangle(int, int, int, int);
     void drawCircle(point, int);
     SDL_Texture* addImage(const char*);
-    void drawImage(SDL_Texture*, int, int, int, int, double);
+    void drawImage(Image&, double);
+    void rotateImage(Image&, double);
 };
 
 #endif // SDL_PLOTTER_H_

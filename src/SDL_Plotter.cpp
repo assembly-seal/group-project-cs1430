@@ -275,23 +275,20 @@ void SDL_Plotter::setColor(color c) {
     SDL_SetRenderDrawColor(renderer, c.R, c.G, c.B, 255);
 }
 
-void SDL_Plotter::setRectangle(int x, int y, int w, int h) {
-    rect = {x, y, w, h};
-}
-
 void SDL_Plotter::drawCircle(point p, int radius) {
+	SDL_Rect rect;
     double t1 = radius / 16.0;
     int x = radius;
     int y = 0;
 
     while (x > y) {
-        setRectangle(-x + p.x, y + p.y, x * 2, 1);
+        rect = {static_cast<int>(-x + p.x), static_cast<int>(y + p.y), x * 2, 1};
         SDL_RenderDrawRect(this->renderer, &rect);
-        setRectangle(-y + p.x, x + p.y - 1, y * 2, 1);
+        rect = {static_cast<int>(-y + p.x), static_cast<int>(x + p.y - 1), y * 2, 1};
         SDL_RenderDrawRect(this->renderer, &rect);
-        setRectangle(-x + p.x, -y + p.y, x * 2, 1);
+        rect = {static_cast<int>(-x + p.x), static_cast<int>(-y + p.y), x * 2, 1};
         SDL_RenderDrawRect(this->renderer, &rect);
-        setRectangle(-y + p.x, -x + p.y + 1, y * 2, 1);
+        rect = {static_cast<int>(-y + p.x), static_cast<int>(-x + p.y + 1), y * 2, 1};
         SDL_RenderDrawRect(this->renderer, &rect);
 
         y++;
@@ -304,15 +301,13 @@ void SDL_Plotter::drawCircle(point p, int radius) {
     }
 }
 
-SDL_Texture* SDL_Plotter::addImage(const char* imagePath) {
+[[nodiscard]] SDL_Texture* SDL_Plotter::addImage(const char* imagePath) {
 	SDL_Surface* surface = IMG_Load(imagePath);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	textures.push_back(texture);
 	SDL_FreeSurface(surface);
 	return texture;
 }
 
-void SDL_Plotter::drawImage(SDL_Texture* texture, int x, int y, int w, int h, double angle = 0) {
-	setRectangle(x, y, w, h);
-	SDL_RenderCopy(renderer, texture, NULL, &rect);
+void SDL_Plotter::drawImage(Image& image, double angle = 0) {
+	SDL_RenderCopyEx(renderer, image.texture, NULL, &image.rect, angle, NULL, SDL_FLIP_NONE);
 }

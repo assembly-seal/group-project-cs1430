@@ -52,7 +52,7 @@ int main() {
 
     int points = 0;
 
-    SDL_Texture* stupidCat = g.addImage("./images/Gakster.png");
+    Image stupidCat = {g.addImage("./images/Gakster.png"), {0, 0, 100, 200}};
 
     // Input:
 
@@ -83,7 +83,7 @@ int main() {
         		g.drawCircle(i.p, i.r);
             }
 
-            g.drawImage(stupidCat, 100, 100, 200, 200, 0.0);
+            g.drawImage(stupidCat, 90.0);
 
         }
         else if (myStatus == BOUNCE_PHASE) {
