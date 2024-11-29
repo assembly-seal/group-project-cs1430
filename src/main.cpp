@@ -77,22 +77,18 @@ int main() {
     vector<Circle> circles;
     vector<Line> lines;
 
-<<<<<<< HEAD
     circles.push_back({spawnPoint, 10, {0, 255, 255}});
-=======
-    circles.push_back({spawnPoint, 30, {0, 255, 255}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
 
->>>>>>> aa045ca1ba9046d60201a7f9322c08bd3d57eccd
     Circle& c1 = circles[0];
     c1.f = {0.1, 0};
     vector<Collision> collisions {};
     vector<LineCollision> lineCollisions {};
 
     lines.push_back({{100, 100}, {400, 400}});
-    lines.push_back({{100, 150}, {400, 450}});
+    lines.push_back({{100, 300}, {400, 400}});
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
