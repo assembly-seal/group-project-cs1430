@@ -49,7 +49,7 @@ point getUniqueRandomPoint(vector <Circle> circles) {
 		unique = true;
 
 		for (int i = i; i < circles.size(); ++i) {
-			if (fabs(p1.x - circles.at(i).p.x) < 120) {
+			if (fabs(p1.x - circles.at(i).p.x) < 140) {
 				unique = false;
 			}
 			//else if (COLLIDING WITH WALLS) {
@@ -89,9 +89,9 @@ int main() {
     Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
 
     circles.push_back({spawnPoint, 15, {0, 255, 255}});
-    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
-    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
-    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 60, {0, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 60, {0, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 60, {0, 0, 0}});
 
     Circle& c1 = circles[0];
     c1.f = {0, 0};
@@ -101,9 +101,9 @@ int main() {
     lines.push_back({{100, 100}, {250, 700}});
     lines.push_back({{400, 100}, {250, 700}});
 
-    enemies.push_back({g.addImage("./images/E1C1_unbroken.png"), {40, 0, 100, 100}, 0.0});
-    enemies.push_back({g.addImage("./images/E1C2_unbroken.png"), {80, 0, 100, 100}, 0.0});
-    enemies.push_back({g.addImage("./images/E2C2_unbroken.png"), {100, 0, 100, 100}, 0.0});
+    enemies.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, 120, 120}, 0.0});
+    enemies.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, 120, 120}, 0.0});
+    enemies.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, 120, 120}, 0.0});
 
     // Input:
 
@@ -154,8 +154,10 @@ int main() {
 
             g.drawImage(projectile);
 
-
             for (int i = 0; i < enemies.size(); ++i) {
+            	enemies.at(i).rect.x = circles.at(i + 1).p.x - 60;
+            	enemies.at(i).rect.y = circles.at(i + 1).p.y - 60;
+
             	g.drawImage(enemies.at(i));
             }
 
@@ -172,9 +174,13 @@ int main() {
             		circles.at(i).p.y -= 140;
             	}
 
-                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
-                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
-                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+                circles.push_back({getUniqueRandomPoint(circles), 60, {0, 0, 0}});
+                circles.push_back({getUniqueRandomPoint(circles), 60, {0, 0, 0}});
+                circles.push_back({getUniqueRandomPoint(circles), 60, {0, 0, 0}});
+
+                enemies.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, 120, 120}, 0.0});
+                enemies.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, 120, 120}, 0.0});
+                enemies.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, 120, 120}, 0.0});
 
                 myEvent = SHOOTING_PHASE;
              }
