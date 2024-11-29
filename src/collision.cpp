@@ -33,25 +33,36 @@ void checkCollisions(vector<Collision>& collisions, vector<Circle>& group1, vect
 void checkCollisions(vector<LineCollision>& collisions, vector<Circle>& circles, vector<Line>& lines) {
     for (Circle& c : circles) {
         for (Line& l : lines) {
-            double ax = c.p.x  - l.p1.x,
-                   bx = l.p2.x - l.p1.x,
-                   ay = c.p.y  - l.p1.y,
-                   by = l.p2.y - l.p1.y;
-            double dot = ax * bx + ay * by;
-            double scalar = dot / l.len();
+            double x1 = l.p1.x, x2 = l.p2.x, x3 = c.p.x,
+                   y1 = l.p1.y, y2 = l.p2.y, y3 = c.p.y;
+            double determinant = ((x2 - x1) * (y3 - y1)) - ((y2 - y1) * (x3 - x1));
+            x3 += cos(c.f.getDirection()) * c.r;
+            y3 += sin(c.f.getDirection()) * c.r;
+            double nextDeterminant = ((x2 - x1) * (y3 - y1)) - ((y2 - y1) * (x3 - x1));
 
-            double minX = min(l.p1.x, l.p2.x);
-            double maxX = max(l.p1.x, l.p2.x);
-            double minY = min(l.p1.y, l.p2.y);
-            double maxY = max(l.p1.y, l.p2.y);
+            bool sameSide = determinant == nextDeterminant || determinant < 0 == nextDeterminant < 0;
 
-            point proj = {
-                clamp(scalar * (bx / l.len()) + l.p1.x, minX, maxX),
-                clamp(scalar * (by / l.len()) + l.p1.y, minY, maxY)
-            };
+            if (!sameSide) {
+                double ax = c.p.x  - l.p1.x,
+                       bx = l.p2.x - l.p1.x,
+                       ay = c.p.y  - l.p1.y,
+                       by = l.p2.y - l.p1.y;
+                double dot = ax * bx + ay * by;
+                double scalar = dot / l.len();
 
-            if (areColliding(c, proj))
-                collisions.push_back({c, proj});
+                double minX = min(l.p1.x, l.p2.x);
+                double maxX = max(l.p1.x, l.p2.x);
+                double minY = min(l.p1.y, l.p2.y);
+                double maxY = max(l.p1.y, l.p2.y);
+
+                point proj = {
+                    clamp(scalar * (bx / l.len()) + l.p1.x, minX, maxX),
+                    clamp(scalar * (by / l.len()) + l.p1.y, minY, maxY)
+                };
+
+                if (areColliding(c, proj))
+                    collisions.push_back({c, proj, l.angle()});
+            }
         }
     }
 }
@@ -72,6 +83,21 @@ void handleCollisions(vector<Collision>& collisions) {
         c1.p.y -= overlap * yRatio / 2;
         c2.p.x += overlap * xRatio / 2;
         c2.p.y += overlap * yRatio / 2;
+
+        collisions.pop_back();
+    }
+}
+
+void handleCollisions(vector<LineCollision>& collisions) {
+    while (collisions.size()) {
+
+        Circle& c = collisions.back().c;
+        point& p = collisions.back().p;
+        double lineAngle = collisions.back().lineAngle;
+        double ballDirection = c.f.getDirection() + 3.14;
+        double theta = 2 * lineAngle - ballDirection;
+
+        c.f.setDirection(atan2(-sin(theta), -cos(theta)));
 
         collisions.pop_back();
     }

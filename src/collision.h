@@ -21,6 +21,7 @@ struct Collision {
 struct LineCollision {
     Circle& c;
     point p;
+    double lineAngle;
 };
 
 bool areColliding(Circle& i, point& j);

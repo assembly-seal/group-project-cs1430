@@ -1,6 +1,12 @@
 #ifndef force_h
 #define force_h
 
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+#define PI 3.141592653
+
 class force{
 	private:
 		double magnitude;

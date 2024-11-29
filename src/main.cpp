@@ -40,7 +40,7 @@ int main() {
 	const int HEIGHT = 1920 / 2;
     SDL_Plotter g(HEIGHT, WIDTH);
     point p1 = {100, 100}, p2 = {200, 200};
-    point spawnPoint = {WIDTH / 2.0, 130};
+    point spawnPoint = {10, 130};
     color c;
     int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
@@ -52,18 +52,21 @@ int main() {
     vector<Circle> circles;
     vector<Line> lines;
 
-    circles.push_back({spawnPoint, 30, {0, 255, 255}});
+    circles.push_back({spawnPoint, 10, {0, 255, 255}});
     Circle& c1 = circles[0];
+    c1.f = {0.1, 0};
     vector<Collision> collisions {};
+    vector<LineCollision> lineCollisions {};
 
     lines.push_back({{100, 100}, {400, 400}});
+    lines.push_back({{100, 150}, {400, 450}});
 
     int points = 0;
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
     Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
+    //Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
     Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 60, 60}, 0.0};
     // Input:
 
@@ -80,40 +83,39 @@ int main() {
         	
             // Press a key (for now "e") to start
 
-        	lastKey = g.getKey();
-
-        	if (lastKey == 'e') {
+        	if (g.getKey() == 'e')
                 myStatus = SHOOTING_PHASE;
-        	}
 
         }
         else if (myStatus == SHOOTING_PHASE) {
-
-            g.getMouseLocation(c1.p.x, c1.p.y);
-
-            g.drawImage(background);
+            //g.getMouseLocation(c1.p.x, c1.p.y);
 
         	checkCollisions(collisions, circles, circles);
         	points += collisions.size() * 25;
         	handleCollisions(collisions);
 
-        	for (auto& i : circles) {
+            g.getMouseLocation(mouseX, mouseY);
+            angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
+			arm.angle = angle * TO_DEGREES - 90;
+
+            c1.p.x += cos(c1.f.getDirection()) * c1.f.getMagnitude();
+            c1.p.y += sin(c1.f.getDirection()) * c1.f.getMagnitude();
+
+            checkCollisions(lineCollisions, circles, lines);
+            handleCollisions(lineCollisions);
+
+            g.drawImage(background);
+
+            for (auto& i : circles) {
                 g.setColor(i.c);
-        		g.drawCircle(i.p, i.r);
+                g.drawCircle(i.p, i.r);
             }
 
-            stupidCat.angle += 0.25;
-            //g.drawImage(stupidCat);
+            for (auto& i : lines)
+        		g.drawLine(i.p1, i.p2);
 
             g.drawImage(projectile);
-
             g.drawImage(arm, {arm.rect.w / 2, 0});
-
-            g.getMouseLocation(mouseX, mouseY);
-
-            angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
-
-			arm.angle = angle * TO_DEGREES - 90;
 
         }
         else if (myStatus == BOUNCE_PHASE) {
@@ -127,7 +129,6 @@ int main() {
         }
 
         g.update();
-        //g.getMouseLocation(c1.p.x, c1.p.y);
     }
 
     // Output:
@@ -135,6 +136,7 @@ int main() {
     cout << "SCORE: " << points << endl;
     
     // Assumptions:
+    // we get the project done
     
     return 0;
 }
