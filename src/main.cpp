@@ -44,18 +44,15 @@ point getUniqueRandomPoint(vector <Circle> circles) {
 	bool unique;
 
 	do {
-		p1.x = rand() % (1080 / 2) + 1;
+		p1.x = rand() % (1080 / 2 - 60) + 61;
 		p1.y = 1920 / 2 - 70;
 		unique = true;
 
-		for (int i = i; i < circles.size(); ++i) {
-			if (fabs(p1.x - circles.at(i).p.x) < 140) {
-				unique = false;
-			}
-			//else if (COLLIDING WITH WALLS) {
+		//for (int i = 1; i < circles.size(); ++i) {
+			//if (fabs(p1.x - circles.at(i).p.x) < 120) {
 			//	unique = false;
 			//}
-		}
+		//}
 	} while (!unique);
 
 	return p1;
@@ -84,6 +81,7 @@ int main() {
     vector<Image> enemies;
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image endScreen = {g.addImage("./images/gameover_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -60, 225, 225}, 0.0};
     Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
@@ -98,8 +96,12 @@ int main() {
     vector<Collision> collisions {};
     vector<LineCollision> lineCollisions {};
 
-    lines.push_back({{100, 100}, {250, 700}});
-    lines.push_back({{400, 100}, {250, 700}});
+    //lines.push_back({{100, 100}, {250, 700}});
+    //lines.push_back({{400, 100}, {250, 700}});
+
+    lines.push_back({{0, 0}, {0, HEIGHT}});
+    lines.push_back({{0, 0}, {WIDTH, 0}});
+    lines.push_back({{WIDTH, 0}, {WIDTH, HEIGHT}});
 
     enemies.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, 120, 120}, 0.0});
     enemies.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, 120, 120}, 0.0});
@@ -126,6 +128,9 @@ int main() {
         }
         else if (myStatus == GAME_RUN) {
             //g.getMouseLocation(c1.p.x, c1.p.y);
+
+            // Add check if enemies colliding with top wall. If so
+            // set myStatus = END_SCREEN
 
         	checkCollisions(collisions, circles, circles);
         	points += collisions.size() * 25;
@@ -166,8 +171,10 @@ int main() {
 
             g.drawImage(arm, {arm.rect.w / 2, 0});
 
-            if (g.getKey() == 't') // Testing manage enemies
+
+            if (g.getKey() == 't') {// Testing manage enemies
             	myEvent = MANAGE_ENEMIES;
+            }
 
             if (myEvent == MANAGE_ENEMIES) {
             	for (int i = 1; i < circles.size(); ++i) {
@@ -190,7 +197,12 @@ int main() {
 
         }
         else if (myStatus == END_SCREEN) {
+        	g.drawImage(endScreen);
 
+        	// Display final score
+
+        	if (g.getKey() == 'e')
+        		myStatus = GAME_RUN;
         }
 
         g.update();
