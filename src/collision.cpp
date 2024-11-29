@@ -17,7 +17,7 @@ bool areColliding(Circle& i, Circle& j) {
 }
 
 void checkCollisions(vector<Collision>& collisions, vector<Circle>& group1, vector<Circle>& group2) {
-    for (Circle& i : group1)
+    for (Circle& i : group1) {
         for (Circle& j : group2) {
             if (&i != &j) {
                 int xDist = j.p.x - i.p.x;
@@ -28,6 +28,7 @@ void checkCollisions(vector<Collision>& collisions, vector<Circle>& group1, vect
                     collisions.push_back((Collision){i, j, xDist, yDist, distance, overlap});
             }
         }
+    }
 }
 
 void checkCollisions(vector<LineCollision>& collisions, vector<Circle>& circles, vector<Line>& lines) {

@@ -8,7 +8,7 @@
 struct Circle {
     point p;
     int r;
-    color c;
+    Image& image;
     force f;
 };
 

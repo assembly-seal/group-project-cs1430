@@ -15,7 +15,11 @@
 #include "SDL_Plotter.h"
 #include "collision.h"
 
-#define TO_DEGREES (180.0/3.141592653589793238463)
+#define TO_DEGREES (180.0 / 3.141592653589793238463)
+#define WIDTH (1080 / 2)
+#define HEIGHT (1920 / 2)
+#define ENEMY_SIZE 80
+#define ENEMY_SIZE_2 (ENEMY_SIZE / 2)
 
 enum GameStatus {
 	TITLE_SCREEN,
@@ -29,6 +33,8 @@ enum RunEvent {
 	MANAGE_ENEMIES
 };
 
+
+// TODO: REMOVE
 void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	for(double i = -size; i <= size;i+=0.1){
 		for(double j = -size; j <= size; j+=0.1){
@@ -39,20 +45,25 @@ void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	}
 }
 
-point getUniqueRandomPoint(vector <Circle> circles) {
+point getUniqueRandomPoint(vector<Circle>& circles) {
 	point p1;
-	bool unique;
+	bool unique = false;
+    Image emptyImage;
+    vector<Collision> collisions;
+    vector<Circle> tempCircles = {{.image = emptyImage}};
+    Circle& dummy = tempCircles.at(0);
 
 	do {
-		p1.x = rand() % (1080 / 2 - 60) + 61;
-		p1.y = 1920 / 2 - 70;
-		unique = true;
+        collisions.clear();
+		p1.x = rand() % (WIDTH - ENEMY_SIZE) + ENEMY_SIZE_2;
+		p1.y = HEIGHT - ENEMY_SIZE_2 - 10;
 
-		//for (int i = 1; i < circles.size(); ++i) {
-			//if (fabs(p1.x - circles.at(i).p.x) < 120) {
-			//	unique = false;
-			//}
-		//}
+        dummy.p = p1;
+        dummy.r = ENEMY_SIZE_2;
+
+        checkCollisions(collisions, tempCircles, circles);
+
+        unique = collisions.size() == 0;
 	} while (!unique);
 
 	return p1;
@@ -62,8 +73,6 @@ point getUniqueRandomPoint(vector <Circle> circles) {
 int main() {
 
     // Data Abstraction:
-	const int WIDTH = 1080 / 2;
-	const int HEIGHT = 1920 / 2;
     SDL_Plotter g(HEIGHT, WIDTH);
     point p1 = {100, 100}, p2 = {200, 200};
     point spawnPoint = {200, 40};
@@ -86,14 +95,14 @@ int main() {
     Image arm         = {g.addImage("./images/arm.png"), {145, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
-    Image E1C1        = {g.addImage("./images/E1C1_unbroken.png"), {0, 0, 120, 120}, 0.0};
-    Image E1C2        = {g.addImage("./images/E1C2_unbroken.png"), {0, 0, 120, 120}, 0.0};
-    Image E2C1        = {g.addImage("./images/E2C1_unbroken.png"), {0, 0, 120, 120}, 0.0};
+    Image E1C1        = {g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0};
+    Image E1C2        = {g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0};
+    Image E2C1        = {g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0};
 
     shots.push_back({spawnPoint, 15, projectile, {0, 0}});
-    enemies.push_back({getUniqueRandomPoint(enemies), 60, E1C1});
-    enemies.push_back({getUniqueRandomPoint(enemies), 60, E1C1});
-    enemies.push_back({getUniqueRandomPoint(enemies), 60, E1C1});
+    enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
+    enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
+    enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
 
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
@@ -113,7 +122,7 @@ int main() {
                 // Press a key (for now "e") to start
                 if (g.getKey() == 'e')
                     myStatus = GAME_RUN;
-            
+
                 break;
 
             case GAME_RUN:
@@ -138,7 +147,7 @@ int main() {
                             i.p.y -= 140;
 
                         for (int i = 0; i < 3; i++)
-                            enemies.push_back({getUniqueRandomPoint(enemies), 60, E1C1});
+                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
 
                         myEvent = SHOOTING_PHASE;
 
@@ -146,8 +155,8 @@ int main() {
                 }
 
                 for (Circle& i : enemies) {
-                    i.image.rect.x = i.p.x - 60;
-                    i.image.rect.y = i.p.y - 60;
+                    i.image.rect.x = i.p.x - ENEMY_SIZE_2;
+                    i.image.rect.y = i.p.y - ENEMY_SIZE_2;
 
                     g.drawImage(i.image);
                 }
@@ -159,6 +168,8 @@ int main() {
                     g.drawImage(i.image);
                 }
 
+	    		arm.angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2) *
+                            TO_DEGREES - 90;
                 g.drawImage(arm, {arm.rect.w / 2, 0});
 
                 break;
