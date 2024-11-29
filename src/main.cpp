@@ -76,7 +76,8 @@ int main() {
 
     srand(time(0));
 
-    vector<Circle> circles;
+    vector<Circle> shots;
+    vector<Circle> enemies;
     vector<Line> lines;
 
     circles.push_back({spawnPoint, 10, {0, 255, 255}});
@@ -95,7 +96,6 @@ int main() {
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
     Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    //Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
     Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 60, 60}, 0.0};
     // Input:
 
@@ -105,67 +105,71 @@ int main() {
     {
     	g.clear();
 
-        if (myStatus == TITLE_SCREEN) {
-        	// Code to display title screen
+        switch (myStatus) {
+            case TITLE_SCREEN:
+                // Code to display title screen    
+                g.drawImage(titleScreen);
+                
+                // Press a key (for now "e") to start
+                if (g.getKey() == 'e')
+                    myStatus = GAME_RUN;
             
-            g.drawImage(titleScreen);
-        	
-            // Press a key (for now "e") to start
+                break;
 
-        	if (g.getKey() == 'e')
-                myStatus = GAME_RUN;
+            case GAME_RUN:
 
-        }
-        else if (myStatus == GAME_RUN) {
-            //g.getMouseLocation(c1.p.x, c1.p.y);
+                g.getMouseLocation(mouseX, mouseY);
+                g.drawImage(background);
 
-        	checkCollisions(collisions, circles, circles);
-        	points += collisions.size() * 25;
-        	handleCollisions(collisions);
+                switch (myEvent) {
+                    case SHOOTING_PHASE:
+                    case BOUNCE_PHASE:
 
-            g.getMouseLocation(mouseX, mouseY);
-            angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
-			arm.angle = angle * TO_DEGREES - 90;
+                        checkCollisions(collisions, circles, circles);
+                        points += collisions.size() * 25;
+                        handleCollisions(collisions);
 
-            c1.f = c1.f + force(0.0005, 3.14 / 2);
-            c1.p.x += cos(c1.f.getDirection()) * c1.f.getMagnitude();
-            c1.p.y += sin(c1.f.getDirection()) * c1.f.getMagnitude();
+                        break;
 
-            checkCollisions(lineCollisions, circles, lines);
-            handleCollisions(lineCollisions);
+                    case MANAGE_ENEMIES:
+                        for (int i = 1; i < circles.size(); ++i)
+                            circles.at(i).p.y -= 100;
 
-            g.drawImage(background);
+                        circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+                        circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
 
-            for (auto& i : circles) {
-                g.setColor(i.c);
-                g.drawCircle(i.p, i.r);
-            }
+                        myEvent = SHOOTING_PHASE;
+                }
 
-            for (auto& i : lines)
-        		g.drawLine(i.p1, i.p2);
-            g.drawImage(projectile);
-            g.drawImage(arm, {arm.rect.w / 2, 0});
+                arm.angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2) *
+                            TO_DEGREES - 90;
 
-            if (g.getKey() == 't') // Testing manage enemies
-            	myEvent = MANAGE_ENEMIES;
+                c1.f = c1.f + force(0.0005, 3.14 / 2);
+                c1.p.x += cos(c1.f.getDirection()) * c1.f.getMagnitude();
+                c1.p.y += sin(c1.f.getDirection()) * c1.f.getMagnitude();
 
-            /*if (myEvent == MANAGE_ENEMIES) {
-            	for (int i = 1; i < circles.size(); ++i) {
-            		circles.at(i).p.y += 100;
-            	}
+                checkCollisions(lineCollisions, circles, lines);
+                handleCollisions(lineCollisions);
 
-                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
-                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+                for (auto& i : circles) {
+                    g.setColor(i.c);
+                    g.drawCircle(i.p, i.r);
+                }
 
-                myEvent = SHOOTING_PHASE;
-             }*/
+                for (auto& i : lines)
+                    g.drawLine(i.p1, i.p2);
+                g.drawImage(projectile);
+                g.drawImage(arm, {arm.rect.w / 2, 0});
 
-        }
-        else if (myEvent == BOUNCE_PHASE) {
+                if (g.getKey() == 't') myEvent = MANAGE_ENEMIES;
 
-        }
-        else if (myStatus == END_SCREEN) {
+                    myEvent = SHOOTING_PHASE;
+                }
 
+                break;
+
+            case END_SCREEN:
+                break;
         }
 
         g.update();
