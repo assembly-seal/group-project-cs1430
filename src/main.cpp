@@ -48,10 +48,13 @@ point getUniqueRandomPoint(vector <Circle> circles) {
 		p1.y = 1920 / 2 - 70;
 		unique = true;
 
-		for (int i = 0; i < circles.size(); ++i) {
-			if (fabs(p1.x - circles.at(i).p.x) < 100) {
-						unique = false;
-					}
+		for (int i = i; i < circles.size(); ++i) {
+			if (fabs(p1.x - circles.at(i).p.x) < 120) {
+				unique = false;
+			}
+			//else if (COLLIDING WITH WALLS) {
+			//	unique = false;
+			//}
 		}
 	} while (!unique);
 
@@ -149,16 +152,17 @@ int main() {
             if (g.getKey() == 't') // Testing manage enemies
             	myEvent = MANAGE_ENEMIES;
 
-            /*if (myEvent == MANAGE_ENEMIES) {
+            if (myEvent == MANAGE_ENEMIES) {
             	for (int i = 1; i < circles.size(); ++i) {
-            		circles.at(i).p.y += 100;
+            		circles.at(i).p.y -= 140;
             	}
 
                 circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
                 circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
 
                 myEvent = SHOOTING_PHASE;
-             }*/
+             }
 
         }
         else if (myEvent == BOUNCE_PHASE) {
