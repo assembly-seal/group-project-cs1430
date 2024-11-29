@@ -19,10 +19,14 @@
 
 enum GameStatus {
 	TITLE_SCREEN,
+	GAME_RUN,
+	END_SCREEN
+};
+
+enum RunEvent {
 	SHOOTING_PHASE,
 	BOUNCE_PHASE,
-	MANAGE_ENEMIES,
-	END_SCREEN
+	MANAGE_ENEMIES
 };
 
 void drawCircle(point loc, int size, color c, SDL_Plotter& g){
@@ -63,10 +67,8 @@ int main() {
     SDL_Plotter g(HEIGHT, WIDTH);
     point p1 = {100, 100}, p2 = {200, 200};
     point spawnPoint = {200, 40};
-    color c;
-    int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
-    char lastKey;
+    RunEvent myEvent = SHOOTING_PHASE;
     double mouseX;
     double mouseY;
     double angle;
@@ -111,10 +113,10 @@ int main() {
             // Press a key (for now "e") to start
 
         	if (g.getKey() == 'e')
-                myStatus = SHOOTING_PHASE;
+                myStatus = GAME_RUN;
 
         }
-        else if (myStatus == SHOOTING_PHASE) {
+        else if (myStatus == GAME_RUN) {
             //g.getMouseLocation(c1.p.x, c1.p.y);
 
         	checkCollisions(collisions, circles, circles);
@@ -144,11 +146,22 @@ int main() {
             g.drawImage(projectile);
             g.drawImage(arm, {arm.rect.w / 2, 0});
 
-        }
-        else if (myStatus == BOUNCE_PHASE) {
+            if (g.getKey() == 't') // Testing manage enemies
+            	myEvent = MANAGE_ENEMIES;
+
+            /*if (myEvent == MANAGE_ENEMIES) {
+            	for (int i = 1; i < circles.size(); ++i) {
+            		circles.at(i).p.y += 100;
+            	}
+
+                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+                circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+
+                myEvent = SHOOTING_PHASE;
+             }*/
 
         }
-        else if (myStatus == MANAGE_ENEMIES) {
+        else if (myEvent == BOUNCE_PHASE) {
 
         }
         else if (myStatus == END_SCREEN) {
