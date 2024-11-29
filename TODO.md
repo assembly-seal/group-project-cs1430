@@ -8,13 +8,15 @@ test test meow
 - [X] Implement "levels"
   - In this context, level simply means one revolution in the cycle of shooting a ball, letting it bounce, spawning new enemies at the bottom, and then moving them all up
 - [X] Add image function
-- [ ] Spawn enemies/power-ups - **Jace**
-- [ ] Move enemies/power-ups - **Jace**
+- [X] Spawn enemies
+- [ ] Spawn power-ups - **Jace**
+- [X] Move enemies
+- [ ] Move power-ups - **Jace**
 - [ ] Despawn enemies/power-ups - **Jace**
 - [ ] Fire projectiles
 - [ ] Physics - **Caden**
 - [X] Background/scenery
-- [ ] Rendering the firing mechanism - **Ava**
+- [X] Rendering the firing mechanism
 - [ ] Rendering all entities - **Ava**
 - [ ] Title screen - **Ava**
 - [ ] End screen w/ fonts & score - **Ava**
