@@ -45,11 +45,10 @@ point getUniqueRandomPoint(vector <Circle> circles) {
 		unique = true;
 
 		for (int i = 0; i < circles.size(); ++i) {
-			if (fabs(p1.x - circles.at(i).p.x) > 70) {
+			if (fabs(p1.x - circles.at(i).p.x) < 100) {
 						unique = false;
 					}
 		}
-
 	} while (!unique);
 
 	return p1;
