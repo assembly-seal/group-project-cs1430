@@ -81,6 +81,12 @@ int main() {
 
     vector<Circle> circles;
     vector<Line> lines;
+    vector<Image> enemies;
+
+    Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image arm = {g.addImage("./images/arm.png"), {145, -60, 225, 225}, 0.0};
+    Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
 
     circles.push_back({spawnPoint, 15, {0, 255, 255}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
@@ -95,10 +101,9 @@ int main() {
     lines.push_back({{100, 100}, {250, 700}});
     lines.push_back({{400, 100}, {250, 700}});
 
-    Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
-    Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
+    enemies.push_back({g.addImage("./images/E1C1_unbroken.png"), {40, 0, 100, 100}, 0.0});
+    enemies.push_back({g.addImage("./images/E1C2_unbroken.png"), {80, 0, 100, 100}, 0.0});
+    enemies.push_back({g.addImage("./images/E2C2_unbroken.png"), {100, 0, 100, 100}, 0.0});
 
     // Input:
 
@@ -148,6 +153,11 @@ int main() {
         		g.drawLine(i.p1, i.p2);
 
             g.drawImage(projectile);
+
+
+            for (int i = 0; i < enemies.size(); ++i) {
+            	g.drawImage(enemies.at(i));
+            }
 
             projectile.rect.x = c1.p.x - 20;
             projectile.rect.y = c1.p.y - 20;
