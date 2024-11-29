@@ -70,6 +70,7 @@ int main() {
     double mouseX;
     double mouseY;
     double angle;
+    int points = 0;
 
     srand(time(0));
 
@@ -85,8 +86,6 @@ int main() {
     vector<Collision> collisions {};
 
     lines.push_back({{100, 100}, {400, 400}});
-
-    int points = 0;
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
