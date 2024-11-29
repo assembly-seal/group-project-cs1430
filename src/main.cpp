@@ -82,7 +82,7 @@ int main() {
     vector<Circle> circles;
     vector<Line> lines;
 
-    circles.push_back({spawnPoint, 10, {0, 255, 255}});
+    circles.push_back({spawnPoint, 15, {0, 255, 255}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
@@ -98,8 +98,8 @@ int main() {
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
     Image background = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    //Image stupidCat = {g.addImage("./images/Gakster.png"), {100, 100, 200, 200}, 0.0};
-    Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 60, 60}, 0.0};
+    Image projectile = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
+
     // Input:
 
     // Process:
@@ -146,7 +146,12 @@ int main() {
 
             for (auto& i : lines)
         		g.drawLine(i.p1, i.p2);
+
             g.drawImage(projectile);
+
+            projectile.rect.x = c1.p.x - 20;
+            projectile.rect.y = c1.p.y - 20;
+
             g.drawImage(arm, {arm.rect.w / 2, 0});
 
             if (g.getKey() == 't') // Testing manage enemies
