@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include "SDL_Plotter.h"
 #include "collision.h"
 
@@ -33,6 +35,16 @@ void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	}
 }
 
+point getRandomPoint() {
+	point p1;
+
+	p1.x = rand() % (1080 / 2) + 1;
+	p1.y = 1920 / 2 - 50;
+
+	return p1;
+}
+
+
 int main() {
 
     // Data Abstraction:
@@ -49,10 +61,14 @@ int main() {
     double mouseY;
     double angle;
 
+    srand(time(0));
+
     vector<Circle> circles;
     vector<Line> lines;
 
     circles.push_back({spawnPoint, 30, {0, 255, 255}});
+    circles.push_back({getRandomPoint(), 50, {0, 255, 255}});
+    circles.push_back({getRandomPoint(), 50, {0, 255, 255}});
     Circle& c1 = circles[0];
     vector<Collision> collisions {};
 
@@ -88,7 +104,6 @@ int main() {
 
         }
         else if (myStatus == SHOOTING_PHASE) {
-
             g.getMouseLocation(c1.p.x, c1.p.y);
 
             g.drawImage(background);
@@ -101,9 +116,6 @@ int main() {
                 g.setColor(i.c);
         		g.drawCircle(i.p, i.r);
             }
-
-            stupidCat.angle += 0.25;
-            //g.drawImage(stupidCat);
 
             g.drawImage(projectile);
 
