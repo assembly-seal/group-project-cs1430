@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include "SDL_Plotter.h"
 #include "collision.h"
 
@@ -33,6 +35,26 @@ void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	}
 }
 
+point getUniqueRandomPoint(vector <Circle> circles) {
+	point p1;
+	bool unique;
+
+	do {
+		p1.x = rand() % (1080 / 2) + 1;
+		p1.y = 1920 / 2 - 70;
+		unique = true;
+
+		for (int i = 0; i < circles.size(); ++i) {
+			if (fabs(p1.x - circles.at(i).p.x) < 100) {
+						unique = false;
+					}
+		}
+	} while (!unique);
+
+	return p1;
+}
+
+
 int main() {
 
     // Data Abstraction:
@@ -48,11 +70,22 @@ int main() {
     double mouseX;
     double mouseY;
     double angle;
+    int points = 0;
+
+    srand(time(0));
 
     vector<Circle> circles;
     vector<Line> lines;
 
+<<<<<<< HEAD
     circles.push_back({spawnPoint, 10, {0, 255, 255}});
+=======
+    circles.push_back({spawnPoint, 30, {0, 255, 255}});
+    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+
+>>>>>>> aa045ca1ba9046d60201a7f9322c08bd3d57eccd
     Circle& c1 = circles[0];
     c1.f = {0.1, 0};
     vector<Collision> collisions {};
@@ -60,8 +93,6 @@ int main() {
 
     lines.push_back({{100, 100}, {400, 400}});
     lines.push_back({{100, 150}, {400, 450}});
-
-    int points = 0;
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
@@ -113,7 +144,6 @@ int main() {
 
             for (auto& i : lines)
         		g.drawLine(i.p1, i.p2);
-
             g.drawImage(projectile);
             g.drawImage(arm, {arm.rect.w / 2, 0});
 
