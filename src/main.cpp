@@ -35,11 +35,22 @@ void drawCircle(point loc, int size, color c, SDL_Plotter& g){
 	}
 }
 
-point getRandomPoint() {
+point getUniqueRandomPoint(vector <Circle> circles) {
 	point p1;
+	bool unique;
 
-	p1.x = rand() % (1080 / 2) + 1;
-	p1.y = 1920 / 2 - 50;
+	do {
+		p1.x = rand() % (1080 / 2) + 1;
+		p1.y = 1920 / 2 - 70;
+		unique = true;
+
+		for (int i = 0; i < circles.size(); ++i) {
+			if (fabs(p1.x - circles.at(i).p.x) > 70) {
+						unique = false;
+					}
+		}
+
+	} while (!unique);
 
 	return p1;
 }
@@ -67,8 +78,10 @@ int main() {
     vector<Line> lines;
 
     circles.push_back({spawnPoint, 30, {0, 255, 255}});
-    circles.push_back({getRandomPoint(), 50, {0, 255, 255}});
-    circles.push_back({getRandomPoint(), 50, {0, 255, 255}});
+    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+    circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
+
     Circle& c1 = circles[0];
     vector<Collision> collisions {};
 
