@@ -62,7 +62,7 @@ int main() {
 	const int HEIGHT = 1920 / 2;
     SDL_Plotter g(HEIGHT, WIDTH);
     point p1 = {100, 100}, p2 = {200, 200};
-    point spawnPoint = {10, 130};
+    point spawnPoint = {200, 40};
     color c;
     int size = 20;
     GameStatus myStatus = TITLE_SCREEN;
@@ -83,12 +83,12 @@ int main() {
     circles.push_back({getUniqueRandomPoint(circles), 50, {255, 0, 0}});
 
     Circle& c1 = circles[0];
-    c1.f = {0.1, 0};
+    c1.f = {0, 0};
     vector<Collision> collisions {};
     vector<LineCollision> lineCollisions {};
 
-    lines.push_back({{100, 100}, {400, 400}});
-    lines.push_back({{100, 300}, {400, 400}});
+    lines.push_back({{100, 100}, {250, 700}});
+    lines.push_back({{400, 100}, {250, 700}});
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm = {g.addImage("./images/arm.png"), {145, -80, 250, 250}, 0.0};
@@ -125,6 +125,7 @@ int main() {
             angle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
 			arm.angle = angle * TO_DEGREES - 90;
 
+            c1.f = c1.f + force(0.0005, 3.14 / 2);
             c1.p.x += cos(c1.f.getDirection()) * c1.f.getMagnitude();
             c1.p.y += sin(c1.f.getDirection()) * c1.f.getMagnitude();
 
