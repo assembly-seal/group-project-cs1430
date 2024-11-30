@@ -79,7 +79,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.5) + enemiesKilled;
+	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 10) + (enemiesKilled + 5);
 	return health;
 }
 
@@ -147,7 +147,7 @@ int main() {
                     myStatus = GAME_RUN;
                     for (int i = 0; i < 3; ++i) {
                     	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
-                    	enemies.at(i).health = 50;
+                    	enemies.at(i).health = generateHealth(enemiesKilled);
                     }
                 }
 
@@ -192,7 +192,7 @@ int main() {
                         // HERE
                         for (int i = 0; i < enemies.size(); ++i) {
                         	if (enemies.at(i).health < 1) {
-                        		enemies.erase(enemies.begin() + i);
+                        		//enemies.erase(enemies.begin() + i);
                         		//cout << "destroy" << endl;
                         	}
                         }
@@ -210,7 +210,7 @@ int main() {
 
                         for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
                             enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
-                            enemies.back().health = 50;
+                            enemies.back().health = generateHealth(enemiesKilled);
                         }
 
                         for (Circle& i : enemies) {
@@ -264,7 +264,7 @@ int main() {
                     myStatus = GAME_RUN;
                     for (int i = 0; i < 3; ++i) {
                     	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
-                    	enemies.at(i).health = 50;
+                    	enemies.at(i).health = generateHealth(enemiesKilled);
                     }
                 }
 
