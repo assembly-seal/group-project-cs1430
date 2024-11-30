@@ -167,7 +167,7 @@ public:
     void setColor(color);
     void drawCircle(point, int);
     SDL_Texture* addImage(const char*);
-    void drawImage(Image&, SDL_Point = {0, 0});
+    void drawImage(Image*, SDL_Point = {0, 0});
     void drawLine(point p1, point p2);
 };
 

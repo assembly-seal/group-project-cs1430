@@ -8,9 +8,15 @@
 struct Circle {
     point p;
     int r;
-    Image& image;
+    Image* image;
     force f;
     int health;
+
+    // Circle& operator=(Circle&& other) {
+    //     p = other.p;
+    //     r = other.r;
+    //     image = &other.i;
+    // }
 };
 
 struct Line {
