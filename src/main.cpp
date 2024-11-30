@@ -79,7 +79,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.5) + enemiesKilled;
+	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 10) + (enemiesKilled + 5);
 	return health;
 }
 
@@ -147,7 +147,7 @@ int main() {
                     myStatus = GAME_RUN;
                     for (int i = 0; i < 3; ++i) {
                     	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
-                    	enemies.at(i).health = 50;
+                    	enemies.at(i).health = generateHealth(enemiesKilled);
                     }
                 }
 
@@ -207,8 +207,10 @@ int main() {
                         for (Circle& i : powerups)
                             i.p.y -= 140;
 
-                        for (int i = 0; i <= rand() % ENEMY_CAP; i++)
-                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
+                        for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
+                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                            enemies.back().health = generateHealth(enemiesKilled);
+                        }
 
                         for (Circle& i : enemies) {
                         	if (i.p.y < 150) {
@@ -259,8 +261,10 @@ int main() {
                 // Display final score
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
-                    for (int i = 0; i < 3; ++i)
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
+                    for (int i = 0; i < 3; ++i) {
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                    	enemies.at(i).health = generateHealth(enemiesKilled);
+                    }
                 }
 
                 break;
