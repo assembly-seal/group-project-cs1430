@@ -105,6 +105,16 @@ int generateHealth(int enemiesKilled) {
 	return health;
 }
 
+bool spawnPowerup() {
+	bool spawn = false;
+
+	if ((rand() % 15) == 5) {
+		spawn = true;
+	}
+
+	return spawn;
+}
+
 int main() {
 
     // Data Abstraction:
@@ -124,7 +134,7 @@ int main() {
 
     srand(time(0));
 
-    vector<Circle> shots, enemies;
+    vector<Circle> shots, enemies, powerups;
     vector<Image> enemyImages;
     vector<Line> lines {};
     vector<Collision> collisions {};
@@ -135,6 +145,7 @@ int main() {
     Image arm         = {g.addImage("./images/arm.png"), {145, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, static_cast<int>(SHOT_IMAGE_SIZE), static_cast<int>(SHOT_IMAGE_SIZE)}, 0.0};
+    Image powerup 	  = {g.addImage("./images/temp_powerup.png"), {0, 0, 50, 50}, 0.0};
 
     enemyImages.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
@@ -218,6 +229,9 @@ int main() {
                         for (Circle& i : enemies)
                             i.p.y -= 140;
 
+                        for (Circle& i : powerups)
+                            i.p.y -= 140;
+
                         for (int i = 0; i <= rand() % ENEMY_CAP; i++)
                             enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
 
@@ -225,6 +239,10 @@ int main() {
                         	if (i.p.y < 150) {
                         		myStatus = END_SCREEN;
                         	}
+                        }
+
+                        if (spawnPowerup()) {
+                        	powerups.push_back({getUniqueRandomPoint(enemies), 25, powerup});
                         }
 
                         shots.push_back({spawnPoint, SHOT_SIZE_2, projectile, {0, 0}});
@@ -248,6 +266,12 @@ int main() {
                     g.drawImage(i.image);
                 }
 
+                for (Circle& i : powerups) {
+                	i.image.rect.x = i.p.x - 25;
+                	i.image.rect.y = i.p.y - 25;
+                	g.drawImage(i.image);
+                }
+
                 g.drawImage(arm, {arm.rect.w / 2, 0});
 
                 break;
@@ -257,14 +281,13 @@ int main() {
                 g.drawImage(endScreen);
 
                 enemies.clear();
+                powerups.clear();
 
                 // Display final score
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
-                    for (int i = 0; i < 3; ++i) {
-                    	int num = rand() % 4;
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
-                    }
+                    for (int i = 0; i < 3; ++i)
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
                 }
 
                 break;
