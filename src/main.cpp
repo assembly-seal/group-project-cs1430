@@ -181,10 +181,8 @@ int main() {
                         for (Circle& i : enemies)
                             i.p.y -= 140;
 
-                        for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
-                        	int num = getRandomNumber();
-                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
-                        }
+                        for (int i = 0; i <= rand() % ENEMY_CAP; i++)
+                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
 
                         shots.push_back({spawnPoint, SHOT_SIZE_2, projectile, {0, 0}});
                         myEvent = SHOOTING_PHASE;
