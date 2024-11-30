@@ -79,29 +79,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 
 int generateHealth(int enemiesKilled) {
 	int health;
-
-	if (enemiesKilled < 5) {
-		health = (rand() % (8 - 5)) + 5;
-	}
-	else if (enemiesKilled < 15) {
-		health = (rand() % (15 - 8)) + 8;
-	}
-	else if (enemiesKilled < 25) {
-		health = (rand() % (25 - 15)) + 15;
-	}
-	else if (enemiesKilled < 35) {
-		health = (rand() % (35 - 25)) + 25;
-	}
-	else if (enemiesKilled < 45) {
-		health = (rand() % (45 - 35)) + 35;
-	}
-	else if (enemiesKilled < 55) {
-		health = (rand() % (65 - 45)) + 45;
-	}
-	else {
-		health = (rand() % (75 - 45)) + 45;
-	}
-
+	health = rand() % (enemiesKilled * 0.5) + enemiesKilled
 	return health;
 }
 
