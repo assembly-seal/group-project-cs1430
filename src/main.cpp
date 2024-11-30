@@ -69,11 +69,6 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 	return p1;
 }
 
-int getRandomNumber() {
-	return (rand() % 4);
-}
-
-
 int main() {
 
     // Data Abstraction:
@@ -109,7 +104,7 @@ int main() {
     shots.push_back({spawnPoint, 15, projectile, {0, 0}});
 
     for (int i = 0; i < 3; ++i) {
-    	int num = getRandomNumber();
+    	int num = rand() % 4;
     	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
     }
 
@@ -156,7 +151,7 @@ int main() {
                             i.p.y -= 140;
 
                         for (int i = 0; i < 3; i++) {
-                        	int num = getRandomNumber();
+                        	int num = rand() % 4;
                             enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
                         }
 
