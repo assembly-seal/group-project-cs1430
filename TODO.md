@@ -13,8 +13,8 @@ test test meow
 - [X] Move enemies
 - [ ] Move power-ups - **Jace**
 - [ ] Despawn enemies/power-ups - **Jace**
-- [ ] Fire projectiles
-- [ ] Physics - **Caden**
+- [ ] Fire projectiles **Caden**
+- [X] Physics - **Caden**
 - [X] Background/scenery
 - [X] Rendering the firing mechanism
 - [ ] Rendering all entities - **Ava**
