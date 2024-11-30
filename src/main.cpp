@@ -58,7 +58,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 	bool unique = false;
     Image emptyImage;
     vector<Collision> collisions;
-    vector<Circle> tempCircles = {{.image = emptyImage}};
+    vector<Circle> tempCircles(1);
     Circle& dummy = tempCircles.at(0);
 
 	do {
@@ -120,7 +120,7 @@ int main() {
     enemyImages.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
 
-    shots.push_back({spawnPoint, 15, projectile, {0, 0}});
+    shots.push_back({spawnPoint, 15, &projectile, {0, 0}});
 
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
@@ -140,13 +140,13 @@ int main() {
         switch (myStatus) {
             case TITLE_SCREEN:
                 // Code to display title screen    
-                g.drawImage(titleScreen);
+                g.drawImage(&titleScreen);
                 
                 // Press a key (for now "e") to start
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
                     for (int i = 0; i < 3; ++i) {
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
                     	enemies.at(i).health = generateHealth(enemiesKilled);
                     }
                 }
@@ -156,7 +156,7 @@ int main() {
             case GAME_RUN: {
 
                 g.getMouseLocation(mouseX, mouseY);
-                g.drawImage(background);
+                g.drawImage(&background);
 
                 double radianArmAngle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
                 arm.angle = radianArmAngle * TO_DEGREES - 90;
@@ -189,11 +189,9 @@ int main() {
                         checkCollisions(lineCollisions, shots, lines);
                         handleCollisions(lineCollisions);
 
-                        // HERE
                         for (int i = 0; i < enemies.size(); ++i) {
-                        	if (enemies.at(i).health < 1) {
-                        		//enemies.erase(enemies.begin() + i);
-                        		//cout << "destroy" << endl;
+                        	if (enemies.at(i).health <= 0) {
+                        		enemies.erase(enemies.begin() + i);
                         		++enemiesKilled;
                         	}
                         }
@@ -210,7 +208,7 @@ int main() {
                             i.p.y -= 140;
 
                         for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
-                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
                             enemies.back().health = generateHealth(enemiesKilled);
                         }
 
@@ -221,10 +219,10 @@ int main() {
                         }
 
                         if ((rand() % 15) == 5) {
-                        	powerups.push_back({getUniqueRandomPoint(enemies), 25, powerup});
+                        	powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup});
                         }
 
-                        shots.push_back({spawnPoint, SHOT_SIZE_2, projectile, {0, 0}});
+                        shots.push_back({spawnPoint, SHOT_SIZE_2, &projectile, {0, 0}});
 
                         myEvent = SHOOTING_PHASE;
 
@@ -232,30 +230,30 @@ int main() {
                 }
 
                 for (Circle& i : enemies) {
-                    i.image.rect.x = i.p.x - ENEMY_SIZE_2;
-                    i.image.rect.y = i.p.y - ENEMY_SIZE_2;
+                    i.image->rect.x = i.p.x - ENEMY_SIZE_2;
+                    i.image->rect.y = i.p.y - ENEMY_SIZE_2;
                     g.drawImage(i.image);
                 }
 
                 for (Circle& i : shots) {
-                    i.image.rect.x = i.p.x - SHOT_IMAGE_SIZE_2;
-                    i.image.rect.y = i.p.y - SHOT_IMAGE_SIZE_2;
+                    i.image->rect.x = i.p.x - SHOT_IMAGE_SIZE_2;
+                    i.image->rect.y = i.p.y - SHOT_IMAGE_SIZE_2;
                     g.drawImage(i.image);
                 }
 
                 for (Circle& i : powerups) {
-                	i.image.rect.x = i.p.x - 25;
-                	i.image.rect.y = i.p.y - 25;
+                	i.image->rect.x = i.p.x - 25;
+                	i.image->rect.y = i.p.y - 25;
                 	g.drawImage(i.image);
                 }
 
-                g.drawImage(arm, {arm.rect.w / 2, 0});
+                g.drawImage(&arm, {arm.rect.w / 2, 0});
 
                 break;
             }
 
             case END_SCREEN:
-                g.drawImage(endScreen);
+                g.drawImage(&endScreen);
 
 
 
@@ -270,7 +268,7 @@ int main() {
                 	powerupsCollected = 0;
 
                     for (int i = 0; i < 3; ++i) {
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
                     	enemies.at(i).health = generateHealth(enemiesKilled);
 
                     }
