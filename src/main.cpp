@@ -133,11 +133,6 @@ int main() {
 
     shots.push_back({spawnPoint, 15, projectile, {0, 0}});
 
-    for (int i = 0; i < 3; ++i) {
-    	int num = rand() % 4;
-    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
-    }
-
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
     lines.push_back({{WIDTH, 0}, {WIDTH, HEIGHT}});
@@ -154,8 +149,13 @@ int main() {
                 g.drawImage(titleScreen);
                 
                 // Press a key (for now "e") to start
-                if (g.getKey() == 'e')
+                if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
+                    for (int i = 0; i < 3; ++i) {
+                    	int num = rand() % 4;
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
+                    }
+                }
 
                 break;
 
@@ -219,9 +219,16 @@ int main() {
             case END_SCREEN:
                 g.drawImage(endScreen);
 
+                enemies.clear();
+
                 // Display final score
-                if (g.getKey() == 'e')
+                if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
+                    for (int i = 0; i < 3; ++i) {
+                    	int num = rand() % 4;
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
+                    }
+                }
 
                 break;
         }
