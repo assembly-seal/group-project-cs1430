@@ -145,10 +145,6 @@ int main() {
                 // Press a key (for now "e") to start
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
-                    for (int i = 0; i < 3; ++i) {
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
-                    	enemies.at(i).health = generateHealth(enemiesKilled);
-                    }
                 }
 
                 break;
@@ -258,7 +254,7 @@ int main() {
             case END_SCREEN:
                 g.drawImage(&endScreen);
 
-
+                myEvent = MANAGE_ENEMIES;
 
                 // Display final score
                 if (g.getKey() == 'e') {
@@ -269,14 +265,6 @@ int main() {
 
                 	enemiesKilled = 0;
                 	powerupsCollected = 0;
-
-                    for (int i = 0; i < 3; ++i) {
-                        enemies.push_back({getUniqueRandomPoint(enemies),
-                                            ENEMY_SIZE_2,
-                                            &enemyImages.at(rand() % 4),
-                                            {},
-                                            generateHealth(enemiesKilled)});
-                    }
                 }
 
                 break;
