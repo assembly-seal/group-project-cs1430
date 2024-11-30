@@ -146,8 +146,8 @@ int main() {
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
                     for (int i = 0; i < 3; ++i) {
-                    	int num = rand() % 4;
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                    	enemies.at(i).health = 50;
                     }
                 }
 
@@ -188,6 +188,13 @@ int main() {
 
                         checkCollisions(lineCollisions, shots, lines);
                         handleCollisions(lineCollisions);
+
+                        // HERE
+                        for (int i = 0; i < enemies.size(); ++i) {
+                        	if (enemies.at(i).health < 1) {
+                        		enemies.erase(enemies.begin() + i);
+                        	}
+                        }
 
                         if (g.getKey() == 't') myEvent = MANAGE_ENEMIES;
 
