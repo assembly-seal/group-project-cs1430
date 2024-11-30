@@ -105,16 +105,6 @@ int generateHealth(int enemiesKilled) {
 	return health;
 }
 
-bool spawnPowerup() {
-	bool spawn = false;
-
-	if ((rand() % 15) == 5) {
-		spawn = true;
-	}
-
-	return spawn;
-}
-
 int main() {
 
     // Data Abstraction:
@@ -241,7 +231,7 @@ int main() {
                         	}
                         }
 
-                        if (spawnPowerup()) {
+                        if ((rand() % 15) == 5) {
                         	powerups.push_back({getUniqueRandomPoint(enemies), 25, powerup});
                         }
 
