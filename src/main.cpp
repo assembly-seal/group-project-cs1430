@@ -189,10 +189,10 @@ int main() {
                         checkCollisions(lineCollisions, shots, lines);
                         handleCollisions(lineCollisions);
 
-                        // HERE
                         for (int i = 0; i < enemies.size(); ++i) {
                         	if (enemies.at(i).health <= 0) {
                         		enemies.erase(enemies.begin() + i);
+                        		++enemiesKilled;
                         	}
                         }
 
@@ -258,12 +258,18 @@ int main() {
             case END_SCREEN:
                 g.drawImage(&endScreen);
 
-                enemies.clear();
-                powerups.clear();
+
 
                 // Display final score
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
+
+                    enemies.clear();
+                    powerups.clear();
+
+                	enemiesKilled = 0;
+                	powerupsCollected = 0;
+
                     for (int i = 0; i < 3; ++i) {
                         enemies.push_back({getUniqueRandomPoint(enemies),
                                             ENEMY_SIZE_2,
