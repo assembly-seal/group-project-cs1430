@@ -108,8 +108,6 @@ int main() {
     enemyImages.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
 
-    shots.push_back({spawnPoint, 15, &projectile, {0, 0}});
-
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
     lines.push_back({{WIDTH, 0}, {WIDTH, HEIGHT}});
@@ -186,7 +184,7 @@ int main() {
                         	}
                         }
 
-                        if (g.getKey() == 't') myEvent = MANAGE_ENEMIES;
+                        if (!shots.size()) myEvent = MANAGE_ENEMIES;
 
                         break;
 

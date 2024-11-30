@@ -82,6 +82,7 @@ Uint32 SDL_Plotter::getColor(int x, int y){
 }
 
 bool SDL_Plotter::getQuit(){
+	queue<point>().swap(click_queue);
 	//Handle events on queue
 	while( SDL_PollEvent( &event ) != 0 )
 	{
@@ -122,7 +123,7 @@ bool SDL_Plotter::kbhit(){
 	return key_queue.size() > 0;
 }
 
-bool SDL_Plotter::mouseClick(){
+bool SDL_Plotter::mouseClick() {
 	return click_queue.size() > 0;
 }
 
