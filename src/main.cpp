@@ -193,6 +193,7 @@ int main() {
                         for (int i = 0; i < enemies.size(); ++i) {
                         	if (enemies.at(i).health < 1) {
                         		enemies.erase(enemies.begin() + i);
+                        		//cout << "destroy" << endl;
                         	}
                         }
 
@@ -207,8 +208,10 @@ int main() {
                         for (Circle& i : powerups)
                             i.p.y -= 140;
 
-                        for (int i = 0; i <= rand() % ENEMY_CAP; i++)
+                        for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
                             enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                            enemies.back().health = 50;
+                        }
 
                         for (Circle& i : enemies) {
                         	if (i.p.y < 150) {
@@ -259,8 +262,10 @@ int main() {
                 // Display final score
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
-                    for (int i = 0; i < 3; ++i)
+                    for (int i = 0; i < 3; ++i) {
                     	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                    	enemies.at(i).health = 50;
+                    }
                 }
 
                 break;
