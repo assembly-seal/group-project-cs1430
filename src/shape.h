@@ -10,6 +10,7 @@ struct Circle {
     int r;
     Image& image;
     force f;
+    int health;
 };
 
 struct Line {

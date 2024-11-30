@@ -245,14 +245,12 @@ int main() {
                 for (Circle& i : enemies) {
                     i.image.rect.x = i.p.x - ENEMY_SIZE_2;
                     i.image.rect.y = i.p.y - ENEMY_SIZE_2;
-
                     g.drawImage(i.image);
                 }
 
                 for (Circle& i : shots) {
                     i.image.rect.x = i.p.x - SHOT_IMAGE_SIZE_2;
                     i.image.rect.y = i.p.y - SHOT_IMAGE_SIZE_2;
-
                     g.drawImage(i.image);
                 }
 
