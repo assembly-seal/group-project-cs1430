@@ -208,7 +208,7 @@ int main() {
                             i.p.y -= 140;
 
                         for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
-                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
                             enemies.back().health = generateHealth(enemiesKilled);
                         }
 
@@ -262,7 +262,7 @@ int main() {
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
                     for (int i = 0; i < 3; ++i) {
-                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(rand() % 4)});
+                    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, &enemyImages.at(rand() % 4)});
                     	enemies.at(i).health = generateHealth(enemiesKilled);
                     }
                 }
