@@ -69,6 +69,10 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 	return p1;
 }
 
+int getRandomNumber() {
+	return (rand() % 4);
+}
+
 
 int main() {
 
@@ -86,6 +90,7 @@ int main() {
     srand(time(0));
 
     vector<Circle> shots, enemies;
+    vector<Image> enemyImages;
     vector<Line> lines {};
     vector<Collision> collisions {};
     vector<LineCollision> lineCollisions {};
@@ -95,14 +100,18 @@ int main() {
     Image arm         = {g.addImage("./images/arm.png"), {145, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, 40, 40}, 0.0};
-    Image E1C1        = {g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0};
-    Image E1C2        = {g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0};
-    Image E2C1        = {g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0};
+
+    enemyImages.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
 
     shots.push_back({spawnPoint, 15, projectile, {0, 0}});
-    enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
-    enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
-    enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
+
+    for (int i = 0; i < 3; ++i) {
+    	int num = getRandomNumber();
+    	enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
+    }
 
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
@@ -146,8 +155,10 @@ int main() {
                         for (Circle& i : enemies)
                             i.p.y -= 140;
 
-                        for (int i = 0; i < 3; i++)
-                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, E1C1});
+                        for (int i = 0; i < 3; i++) {
+                        	int num = getRandomNumber();
+                            enemies.push_back({getUniqueRandomPoint(enemies), ENEMY_SIZE_2, enemyImages.at(num)});
+                        }
 
                         myEvent = SHOOTING_PHASE;
 
