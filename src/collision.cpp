@@ -81,7 +81,7 @@ void handleCollisions(vector<Collision>& collisions) {
         double yRatio = yDist / distance;
 
         --c2.health;
-        cout << c2.health << endl;
+        //cout << c2.health << endl;
 
         c1.p.x -= overlap * xRatio / 2;
         c1.p.y -= overlap * yRatio / 2;
