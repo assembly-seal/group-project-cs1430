@@ -5,19 +5,20 @@
 test test meow
 
 ### (Claim a task by putting your name next to the task in the following format: `- **Name**`)
-- [X] Implement "levels"
+- [X] Implement "levels" - **Caden/Ava**
   - In this context, level simply means one revolution in the cycle of shooting a ball, letting it bounce, spawning new enemies at the bottom, and then moving them all up
-- [X] Add image function
-- [X] Spawn enemies
-- [ ] Spawn power-ups - **Jace**
-- [X] Move enemies
-- [ ] Move power-ups - **Jace**
-- [ ] Despawn enemies/power-ups - **Jace**
+- [X] Add image function - **Caden**
+- [X] Spawn enemies/power-ups - **Caden/Ava**
+- [X] Move enemies/power-ups - **Caden/Ava**
+- [X] Despawn enemies/power-ups - **Ava**
+- [ ] Implement enemy health
+- [ ] Implement enemy damage visuals
+- [ ] Implement powerup effects
 - [ ] Fire projectiles **Caden**
 - [X] Physics - **Caden**
-- [X] Background/scenery
-- [X] Rendering the firing mechanism
-- [ ] Rendering all entities - **Ava**
+- [X] Background/scenery - **Ava**
+- [X] Rendering the firing mechanism - **Caden/Ava**
+- [X] Rendering all entities - **Ava**
 - [ ] Title screen - **Ava**
 - [ ] End screen w/ fonts & score - **Ava**
 - [ ] Score at top of main game
