@@ -159,13 +159,19 @@ int main() {
                         break;
 
                     case BOUNCE_PHASE:
-
+                        // apply force to balls
                         for (Circle& i : shots) {
                             i.f.apply(force(0.0005, PI_2));
                             i.p.x += cos(i.f.getDirection()) * i.f.getMagnitude() * deltaTime;
                             i.p.y += sin(i.f.getDirection()) * i.f.getMagnitude() * deltaTime;
                         }
 
+                        // remove balls that have fallen off screen
+                        for (int i = 0; i < shots.size(); i++)
+                            if (shots[i].p.y > HEIGHT + SHOT_SIZE_2)
+                                shots.erase(shots.begin() + i);
+
+                        // handle collisions
                         checkCollisions(collisions, shots, enemies);
                         points += collisions.size() * 25;
                         handleCollisions(collisions);
