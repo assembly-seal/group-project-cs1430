@@ -98,7 +98,7 @@ int main() {
 
     Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image endScreen   = {g.addImage("./images/gameover_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    Image arm         = {g.addImage("./images/arm.png"), {145, -60, 225, 225}, 0.0};
+    Image arm         = {g.addImage("./images/arm.png"), {WIDTH / 2 - 113, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, static_cast<int>(SHOT_IMAGE_SIZE), static_cast<int>(SHOT_IMAGE_SIZE)}, 0.0};
     Image powerup 	  = {g.addImage("./images/temp_powerup.png"), {0, 0, 50, 50}, 0.0};
