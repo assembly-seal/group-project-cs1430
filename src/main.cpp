@@ -12,8 +12,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
 #include "SDL_Plotter.h"
 #include "collision.h"
+using namespace std;
 
 #define PI_2 (PI / 2)
 #define TO_DEGREES (180.0 / PI)
@@ -92,6 +94,8 @@ int main() {
     double mouseY;
     double angle;
     int points = 0;
+    chrono::steady_clock::time_point lastTime;
+    float deltaTime;
 
     srand(time(0));
 
@@ -119,8 +123,13 @@ int main() {
     // Input:
     // Process:
 
+    lastTime = chrono::steady_clock::now();
     while (!g.getQuit()) {
     	g.clear();
+
+        auto now = chrono::steady_clock::now();
+        deltaTime = chrono::duration_cast<chrono::microseconds>(now - lastTime).count() / 1000.0f;
+        lastTime = now;
 
         switch (myStatus) {
             case TITLE_SCREEN:
@@ -158,8 +167,8 @@ int main() {
 
                         for (Circle& i : shots) {
                             i.f.apply(force(0.0005, PI_2));
-                            i.p.x += cos(i.f.getDirection()) * i.f.getMagnitude();
-                            i.p.y += sin(i.f.getDirection()) * i.f.getMagnitude();
+                            i.p.x += cos(i.f.getDirection()) * i.f.getMagnitude() * deltaTime;
+                            i.p.y += sin(i.f.getDirection()) * i.f.getMagnitude() * deltaTime;
                         }
 
                         checkCollisions(collisions, shots, enemies);
@@ -198,7 +207,7 @@ int main() {
                 for (Circle& i : shots) {
                     i.image.rect.x = i.p.x - SHOT_IMAGE_SIZE_2;
                     i.image.rect.y = i.p.y - SHOT_IMAGE_SIZE_2;
-                    
+
                     g.drawImage(i.image);
                 }
 
