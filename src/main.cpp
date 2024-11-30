@@ -77,11 +77,6 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 	return p1;
 }
 
-int getRandomNumber() {
-	return (rand() % 4);
-}
-
-
 int main() {
 
     // Data Abstraction:
