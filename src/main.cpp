@@ -67,7 +67,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 10) + (enemiesKilled + 5);
+	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 3) + (enemiesKilled + 2);
 	return health;
 }
 
