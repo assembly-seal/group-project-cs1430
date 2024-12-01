@@ -192,6 +192,7 @@ int main() {
 
                 g.getMouseLocation(mouseX, mouseY);
                 g.drawImage(&background);
+                //g.write();
 
                 double radianArmAngle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
                 arm.angle = radianArmAngle * TO_DEGREES - 90;
@@ -223,22 +224,33 @@ int main() {
                                 shots.erase(shots.begin() + i);
 
                         // handle collisions
+
                         checkCollisions(collisions, shots, enemies);
+                        checkCollisions(collisions, shots, powerups);
                         points += collisions.size() * 25;
                         handleCollisions(collisions);
 
                         checkCollisions(lineCollisions, shots, lines);
                         handleCollisions(lineCollisions);
+                        
+                        for (int i = 0; i < powerups.size(); ++i) {
+                            if (powerups.at(i).currentHealth < 0) {
+                                powerups.erase(powerups.begin() + i);
+                                ++powerupsCollected;
+                                // realign i with changed vec
+                                i--;
+                            }
+                        }
 
                         for (int i = 0; i < enemies.size(); ++i) {
                             enemyDamage(enemies.at(i), enemyImages);
 
-                        	if (enemies.at(i).currentHealth <= 0) {
-                        		enemies.erase(enemies.begin() + i);
-                        		++enemiesKilled;
+                            if (enemies.at(i).currentHealth <= 0) {
+                                enemies.erase(enemies.begin() + i);
+                                ++enemiesKilled;
                                 // realign i with changed vec
                                 i--;
-                        	}
+                            }
                         }
 
                         if (!shots.size()) myEvent = MANAGE_ENEMIES;
@@ -268,8 +280,8 @@ int main() {
                         	}
                         }
 
-                        if ((rand() % 15) == 5) {
-                        	powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup});
+                        if (1) {//((rand() % 15) == 5) {
+                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 1});
                         }
 
                         shots.push_back({spawnPoint, SHOT_SIZE_2, &projectile, {0, 0}});

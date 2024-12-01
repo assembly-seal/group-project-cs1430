@@ -316,3 +316,19 @@ void SDL_Plotter::drawImage(Image* image, SDL_Point rotation_point) {
 void SDL_Plotter::drawLine(point p1, point p2) {
 	SDL_RenderDrawLine(renderer, p1.x, p1.y, p2.x, p2.y);
 }
+
+void SDL_Plotter::write() {
+	TTF_Font* font = TTF_OpenFont("Ariel.ttf", 24);
+	if (font == NULL) cout << TTF_GetError() << endl;
+	SDL_Surface* surfaceMessage =
+		TTF_RenderText_Solid(font, "put your text here", {255, 255, 255}); 
+
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+	SDL_Rect Message_rect = {0, 0, 100, 100};
+
+	SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+
+	SDL_FreeSurface(surfaceMessage);
+	SDL_DestroyTexture(Message);
+}

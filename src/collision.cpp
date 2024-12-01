@@ -24,7 +24,7 @@ void checkCollisions(vector<Collision>& collisions, vector<Circle>& group1, vect
                 int yDist = j.p.y - i.p.y;
                 double distance = getDistance(xDist, yDist);
                 double overlap  = i.r + j.r - distance;
-                if (areColliding(i, j))
+                if (areColliding(i, j) && --j.currentHealth >= 0)
                     collisions.push_back((Collision){i, j, xDist, yDist, distance, overlap});
             }
         }
@@ -89,9 +89,6 @@ void handleCollisions(vector<Collision>& collisions) {
         double theta = 2 * tanAngle - ballDirection;
 
         c1.f.setDirection(atan2(-sin(theta), -cos(theta)));
-
-        --c2.currentHealth;
-        //cout << c2.health << endl;
 
         // c1.p.x -= overlap * xRatio / 2;
         // c1.p.y -= overlap * yRatio / 2;

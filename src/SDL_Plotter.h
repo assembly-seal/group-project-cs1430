@@ -28,6 +28,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_thread.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 //Windows Library
 //#include <SDL2/SDL.h>
@@ -169,6 +170,7 @@ public:
     SDL_Texture* addImage(const char*);
     void drawImage(Image*, SDL_Point = {0, 0});
     void drawLine(point p1, point p2);
+    void write();
 };
 
 #endif // SDL_PLOTTER_H_
