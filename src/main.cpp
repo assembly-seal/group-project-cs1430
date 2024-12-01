@@ -145,8 +145,6 @@ int main() {
 
                 switch (myEvent) {
                     case SHOOTING_PHASE:
-
-                        cout << shots.size() << endl;
                     
                         shots[0].p.x = cos(radianArmAngle) * 200 + WIDTH / 2;
                         shots[0].p.y = sin(radianArmAngle) * 200 - 60;
