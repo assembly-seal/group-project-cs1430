@@ -101,7 +101,7 @@ int main() {
     Image arm         = {g.addImage("./images/arm.png"), {WIDTH / 2 - 113, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, static_cast<int>(SHOT_IMAGE_SIZE), static_cast<int>(SHOT_IMAGE_SIZE)}, 0.0};
-    Image powerup 	  = {g.addImage("./images/temp_powerup.png"), {0, 0, 50, 50}, 0.0};
+    Image powerup 	  = {g.addImage("./images/powerup.png"), {0, 0, 50, 50}, 0.0};
 
     enemyImages.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
