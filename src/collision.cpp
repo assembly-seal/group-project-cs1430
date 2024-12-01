@@ -90,7 +90,7 @@ void handleCollisions(vector<Collision>& collisions) {
 
         c1.f.setDirection(atan2(-sin(theta), -cos(theta)));
 
-        --c2.health;
+        --c2.currentHealth;
         //cout << c2.health << endl;
 
         // c1.p.x -= overlap * xRatio / 2;

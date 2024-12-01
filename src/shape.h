@@ -10,7 +10,8 @@ struct Circle {
     int r;
     Image* image;
     force f;
-    int health;
+    int initialHealth;
+    int currentHealth;
 };
 
 struct Line {

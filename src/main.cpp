@@ -67,8 +67,53 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 3) + (enemiesKilled + 2);
+	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 3) + (enemiesKilled + 4);
 	return health;
+}
+
+void enemyDamage(Circle& enemy, vector<Image> enemyImages) {
+	if (static_cast<double>(enemy.currentHealth) / enemy.initialHealth < (3.0 / 4.0)) {
+		if (enemy.image->texture == enemyImages.at(0).texture) {
+			enemy.image->texture = enemyImages.at(4).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(1).texture) {
+			enemy.image->texture = enemyImages.at(5).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(2).texture) {
+			enemy.image->texture = enemyImages.at(6).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(3).texture) {
+			enemy.image->texture = enemyImages.at(7).texture;
+		}
+	}
+	else if (static_cast<double>(enemy.currentHealth) / enemy.initialHealth < (2.0 / 4.0)) {
+		if (enemy.image->texture == enemyImages.at(4).texture) {
+			enemy.image->texture = enemyImages.at(8).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(5).texture) {
+			enemy.image->texture = enemyImages.at(9).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(6).texture) {
+			enemy.image->texture = enemyImages.at(10).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(7).texture) {
+			enemy.image->texture = enemyImages.at(11).texture;
+		}
+	}
+	else if (static_cast<double>(enemy.currentHealth) / enemy.initialHealth < (1.0 / 4.0)){
+		if (enemy.image->texture == enemyImages.at(8).texture) {
+			enemy.image->texture = enemyImages.at(12).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(9).texture) {
+			enemy.image->texture = enemyImages.at(13).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(10).texture) {
+			enemy.image->texture = enemyImages.at(14).texture;
+		}
+		else if (enemy.image->texture == enemyImages.at(11).texture) {
+			enemy.image->texture = enemyImages.at(15).texture;
+		}
+	}
 }
 
 int main() {
@@ -107,6 +152,18 @@ int main() {
     enemyImages.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C1_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C2_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C1_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C2_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C1_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C2_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C1_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C2_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
 
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
@@ -178,10 +235,13 @@ int main() {
                         handleCollisions(lineCollisions);
 
                         for (int i = 0; i < enemies.size(); ++i) {
-                        	if (enemies.at(i).health <= 0) {
+                        	if (enemies.at(i).currentHealth <= 0) {
                         		enemies.erase(enemies.begin() + i);
                         		++enemiesKilled;
                         	}
+
+                        	enemyDamage(enemies.at(i), enemyImages);
+
                         }
 
                         if (!shots.size()) myEvent = MANAGE_ENEMIES;
@@ -200,7 +260,8 @@ int main() {
                                                ENEMY_SIZE_2,
                                                &enemyImages.at(rand() % 4),
                                                {},
-                                               generateHealth(enemiesKilled)});
+                                               generateHealth(enemiesKilled),
+											   generateHealth(enemiesKilled)});
                         }
 
                         for (Circle& i : enemies) {
