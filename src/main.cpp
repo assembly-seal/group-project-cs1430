@@ -75,7 +75,6 @@ int generateHealth(int enemiesKilled) {
 void enemyDamage(Circle& enemy, vector<Image> enemyImages) {
     bool finished = false;
     double healthRatio = static_cast<double>(enemy.currentHealth) / enemy.initialHealth;
-    if (healthRatio != 1.0) cout << enemy.currentHealth << " / " << enemy.initialHealth;
 	if (healthRatio < (1.0 / 4.0)) {
         for (int i = 8; i < 12 && !finished; i++) {
             if (enemy.image->texture == enemyImages.at(i).texture) {
@@ -244,7 +243,6 @@ int main() {
                         }
 
                         for (int i = 0; i < enemies.size(); ++i) {
-                            cout << enemiesKilled << endl;
                             enemyDamage(enemies.at(i), enemyImages);
 
                             if (enemies.at(i).currentHealth <= 0) {
