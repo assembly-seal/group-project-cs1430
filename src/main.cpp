@@ -68,13 +68,14 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
 
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 3) + (enemiesKilled + 4);
+	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 1) + (enemiesKilled + 4);
 	return health;
 }
 
 void enemyDamage(Circle& enemy, vector<Image> enemyImages) {
     bool finished = false;
     double healthRatio = static_cast<double>(enemy.currentHealth) / enemy.initialHealth;
+    if (healthRatio != 1.0) cout << enemy.currentHealth << " / " << enemy.initialHealth;
 	if (healthRatio < (1.0 / 4.0)) {
         for (int i = 8; i < 12 && !finished; i++) {
             if (enemy.image->texture == enemyImages.at(i).texture) {
@@ -243,13 +244,14 @@ int main() {
                         }
 
                         for (int i = 0; i < enemies.size(); ++i) {
+                            cout << enemiesKilled << endl;
                             enemyDamage(enemies.at(i), enemyImages);
 
                             if (enemies.at(i).currentHealth <= 0) {
                                 enemies.erase(enemies.begin() + i);
                                 ++enemiesKilled;
                                 // realign i with changed vec
-                                i--;
+                                //i--;
                             }
                         }
 
@@ -281,7 +283,7 @@ int main() {
                         }
 
                         if (1) {//((rand() % 15) == 5) {
-                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 1});
+                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0});
                         }
 
                         shots.push_back({spawnPoint, SHOT_SIZE_2, &projectile, {0, 0}});
