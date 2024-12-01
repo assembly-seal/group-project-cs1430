@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include <string>
 #include "SDL_Plotter.h"
 #include "collision.h"
 using namespace std;
@@ -72,47 +73,31 @@ int generateHealth(int enemiesKilled) {
 }
 
 void enemyDamage(Circle& enemy, vector<Image> enemyImages) {
-	if (static_cast<double>(enemy.currentHealth) / enemy.initialHealth < (3.0 / 4.0)) {
-		if (enemy.image->texture == enemyImages.at(0).texture) {
-			enemy.image->texture = enemyImages.at(4).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(1).texture) {
-			enemy.image->texture = enemyImages.at(5).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(2).texture) {
-			enemy.image->texture = enemyImages.at(6).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(3).texture) {
-			enemy.image->texture = enemyImages.at(7).texture;
-		}
+    bool finished = false;
+    double healthRatio = static_cast<double>(enemy.currentHealth) / enemy.initialHealth;
+	if (healthRatio < (1.0 / 4.0)) {
+        for (int i = 8; i < 12 && !finished; i++) {
+            if (enemy.image->texture == enemyImages.at(i).texture) {
+			    enemy.image = &enemyImages.at(i + 4);
+                bool finished = true;
+            }
+        }
 	}
-	else if (static_cast<double>(enemy.currentHealth) / enemy.initialHealth < (2.0 / 4.0)) {
-		if (enemy.image->texture == enemyImages.at(4).texture) {
-			enemy.image->texture = enemyImages.at(8).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(5).texture) {
-			enemy.image->texture = enemyImages.at(9).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(6).texture) {
-			enemy.image->texture = enemyImages.at(10).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(7).texture) {
-			enemy.image->texture = enemyImages.at(11).texture;
-		}
+	else if (healthRatio < (2.0 / 4.0)) {
+        for (int i = 4; i < 8 && !finished; i++) {
+            if (enemy.image->texture == enemyImages.at(i).texture) {
+			    enemy.image = &enemyImages.at(i + 4);
+                bool finished = true;
+            }
+        }
 	}
-	else if (static_cast<double>(enemy.currentHealth) / enemy.initialHealth < (1.0 / 4.0)){
-		if (enemy.image->texture == enemyImages.at(8).texture) {
-			enemy.image->texture = enemyImages.at(12).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(9).texture) {
-			enemy.image->texture = enemyImages.at(13).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(10).texture) {
-			enemy.image->texture = enemyImages.at(14).texture;
-		}
-		else if (enemy.image->texture == enemyImages.at(11).texture) {
-			enemy.image->texture = enemyImages.at(15).texture;
-		}
+	else if (healthRatio < (3.0 / 4.0)){
+        for (int i = 0; i < 4 && !finished; i++) {
+            if (enemy.image->texture == enemyImages.at(i).texture) {
+			    enemy.image = &enemyImages.at(i + 4);
+                bool finished = true;
+            }
+        }
 	}
 }
 
@@ -132,6 +117,7 @@ int main() {
     int powerupsCollected = 0;
     chrono::steady_clock::time_point lastTime;
     float deltaTime;
+    string fileName;
 
     srand(time(0));
 
@@ -148,6 +134,16 @@ int main() {
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, static_cast<int>(SHOT_IMAGE_SIZE), static_cast<int>(SHOT_IMAGE_SIZE)}, 0.0};
     Image powerup 	  = {g.addImage("./images/powerup.png"), {0, 0, 50, 50}, 0.0};
 
+    // SHORT[ER] VERSION FOR ENEMYIMAGES
+    // for (int i = 1; i <= 16; i++) {
+    //     fileName = "./images/E" + to_string(2 - (i + 1) / 2 % 2) + "C" +
+    //                to_string(2 - i % 2) + "_";
+    //     if      (i <= 4)  fileName += "unbroken.png";
+    //     else if (i <= 12) fileName += string("cracked") + (i <= 8 ? "1.png" : "2.png");
+    //     else              fileName += "broken.png";
+    //     enemyImages.push_back({g.addImage(fileName), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    // }
+
     enemyImages.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
@@ -160,10 +156,10 @@ int main() {
     enemyImages.push_back({g.addImage("./images/E1C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     enemyImages.push_back({g.addImage("./images/E2C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C1_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C2_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C1_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C2_broken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C1_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E1C2_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C1_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages.push_back({g.addImage("./images/E2C2_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
 
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
@@ -235,13 +231,14 @@ int main() {
                         handleCollisions(lineCollisions);
 
                         for (int i = 0; i < enemies.size(); ++i) {
+                            enemyDamage(enemies.at(i), enemyImages);
+
                         	if (enemies.at(i).currentHealth <= 0) {
                         		enemies.erase(enemies.begin() + i);
                         		++enemiesKilled;
+                                // realign i with changed vec
+                                i--;
                         	}
-
-                        	enemyDamage(enemies.at(i), enemyImages);
-
                         }
 
                         if (!shots.size()) myEvent = MANAGE_ENEMIES;
@@ -256,12 +253,13 @@ int main() {
                             i.p.y -= 140;
 
                         for (int i = 0; i <= rand() % ENEMY_CAP; i++) {
+                            int health = generateHealth(enemiesKilled);
                             enemies.push_back({getUniqueRandomPoint(enemies),
                                                ENEMY_SIZE_2,
                                                &enemyImages.at(rand() % 4),
                                                {},
-                                               generateHealth(enemiesKilled),
-											   generateHealth(enemiesKilled)});
+                                               health,
+											   health});
                         }
 
                         for (Circle& i : enemies) {
