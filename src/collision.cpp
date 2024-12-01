@@ -43,7 +43,7 @@ void checkCollisions(vector<LineCollision>& collisions, vector<Circle>& circles,
 
             bool sameSide = determinant == nextDeterminant || determinant < 0 == nextDeterminant < 0;
 
-            if (!sameSide) {
+            if (1) {//!sameSide) {
                 double ax = c.p.x  - l.p1.x,
                        bx = l.p2.x - l.p1.x,
                        ay = c.p.y  - l.p1.y,
