@@ -77,16 +77,26 @@ void handleCollisions(vector<Collision>& collisions) {
         double distance = collisions.back().distance;
         double overlap  = collisions.back().overlap;
 
-        double xRatio = xDist / distance;
-        double yRatio = yDist / distance;
+        // double xRatio = xDist / distance;
+        // double yRatio = yDist / distance;
+
+        double angleBetween = atan2(c1.p.y - c2.p.y, c1.p.x - c2.p.x);
+        double tanAngle = angleBetween + (PI / 2);
+        //point& p = {cos(angleBetween) * c2.r + c2.x, sin(angle) * c2.r + c2.y};
+        //Line tangent = {{cos(tanAngle) + p.x, sin(tanAngle) + p.y}, {-cos(tanAngle) + p.x, -sin(tanAngle) + p.y}};
+
+        double ballDirection = c1.f.getDirection() + PI;
+        double theta = 2 * tanAngle - ballDirection;
+
+        c1.f.setDirection(atan2(-sin(theta), -cos(theta)));
 
         --c2.health;
         //cout << c2.health << endl;
 
-        c1.p.x -= overlap * xRatio / 2;
-        c1.p.y -= overlap * yRatio / 2;
-        c2.p.x += overlap * xRatio / 2;
-        c2.p.y += overlap * yRatio / 2;
+        // c1.p.x -= overlap * xRatio / 2;
+        // c1.p.y -= overlap * yRatio / 2;
+        // c2.p.x += overlap * xRatio / 2;
+        // c2.p.y += overlap * yRatio / 2;
 
         collisions.pop_back();
     }
@@ -98,7 +108,7 @@ void handleCollisions(vector<LineCollision>& collisions) {
         Circle& c = collisions.back().c;
         point& p = collisions.back().p;
         double lineAngle = collisions.back().lineAngle;
-        double ballDirection = c.f.getDirection() + 3.14;
+        double ballDirection = c.f.getDirection() + PI;
         double theta = 2 * lineAngle - ballDirection;
 
         c.f.setDirection(atan2(-sin(theta), -cos(theta)));
