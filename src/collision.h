@@ -24,6 +24,18 @@ struct LineCollision {
     double lineAngle;
 };
 
+struct prevCollision {
+    Circle* c1;
+    Circle* c2;
+    bool over = false;
+};
+
+struct prevLineCollision {
+    Circle* c;
+    point* p;
+    bool over = false;
+};
+
 bool areColliding(Circle& i, point& j);
 bool areColliding(Circle& i, Circle& j);
 void checkCollisions(vector<Collision>&, vector<Circle>&, vector<Circle>&);
