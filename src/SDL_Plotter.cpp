@@ -43,7 +43,7 @@ static int Sound(void *data){
 
 // SDL Plotter Function Definitions
 
-SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND){
+SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND) {
 	row = r;
 	col = c;
 	//leftMouseButtonDown = false;
@@ -52,8 +52,9 @@ SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND){
 	currentKeyStates = NULL;
 
 	SDL_Init(SDL_INIT_AUDIO);
+	TTF_Init();
 
-    window   = SDL_CreateWindow("SDL2 Pixel Drawing",
+    window   = SDL_CreateWindow("Game",
     		                     SDL_WINDOWPOS_UNDEFINED,
     		                     SDL_WINDOWPOS_UNDEFINED, col, row, 0);
 
@@ -65,7 +66,7 @@ SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND){
     Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
     soundCount = 0;
     update();
-  }
+}
 
 SDL_Plotter::~SDL_Plotter(){
     SDL_DestroyRenderer(renderer);

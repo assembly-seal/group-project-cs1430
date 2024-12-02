@@ -29,6 +29,7 @@ using namespace std;
 #define ENEMY_SIZE 80
 #define ENEMY_SIZE_2 (ENEMY_SIZE / 2)
 #define ENEMY_CAP (WIDTH / ENEMY_SIZE / 2)
+#define SHOOTING_INTERVAL 1000.0
 
 enum GameStatus {
 	TITLE_SCREEN,
@@ -112,10 +113,12 @@ int main() {
     double mouseX;
     double mouseY;
     double angle;
+    double oldRadianArmAngle;
     int points = 0;
     int enemiesKilled = 0;
-    int powerupsCollected = 0;
+    int powerupsCollected = 0, shotsLeft = 1;
     chrono::steady_clock::time_point lastTime;
+    double timer;
     float deltaTime;
     string fileName;
 
@@ -204,13 +207,27 @@ int main() {
                         shots[0].p.y = sin(radianArmAngle) * 200 - 60;
 
                         if (g.mouseClick()) {
-                            shots[0].f = {0.5, radianArmAngle};
+                            oldRadianArmAngle = radianArmAngle;
+                            shotsLeft = powerupsCollected + 1;
+                            timer = SHOOTING_INTERVAL;
                             myEvent = BOUNCE_PHASE;
                         }
 
                         break;
 
                     case BOUNCE_PHASE:
+                        timer += deltaTime;
+                        
+                        if (shotsLeft > 0) {
+                            shots[shots.size() - 1].p.x = cos(oldRadianArmAngle) * 200 + WIDTH / 2;
+                            shots[shots.size() - 1].p.y = sin(oldRadianArmAngle) * 200 - 60;
+                        }
+
+                        if (timer >= SHOOTING_INTERVAL && shotsLeft-- > 0) {
+                            shots[shots.size() - 1].f = {0.5, oldRadianArmAngle};
+                            if (shotsLeft > 0) shots.push_back(shots[shots.size() - 1]);
+                            timer = 0.0;
+                        }
                         // apply force to balls
                         for (Circle& i : shots) {
                             i.f.apply(force(0.001, PI_2));
@@ -253,7 +270,10 @@ int main() {
                             }
                         }
 
-                        if (!shots.size()) myEvent = MANAGE_ENEMIES;
+                        if (!shots.size()) {
+                            myEvent = MANAGE_ENEMIES;
+                            timer = 0.0;
+                        }
 
                         break;
 
