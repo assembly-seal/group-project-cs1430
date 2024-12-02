@@ -198,7 +198,7 @@ int main() {
                 g.drawImage(&background);
                 g.write("test", {100, 100, 100, 20});
 
-                double radianArmAngle = atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2);
+                double radianArmAngle = clamp(atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2), 0.5, PI - 0.5);
                 arm.angle = radianArmAngle * TO_DEGREES - 90;
 
                 switch (myEvent) {
