@@ -114,6 +114,7 @@ private:
     const Uint8  *currentKeyStates;
     SDL_Event    event;
     int          row, col;
+    TTF_Font* font;
     bool         quit;
 
     //Keyboard Stuff
@@ -170,7 +171,7 @@ public:
     SDL_Texture* addImage(const char*);
     void drawImage(Image*, SDL_Point = {0, 0});
     void drawLine(point p1, point p2);
-    void write();
+    void write(const char* message, SDL_Rect rect);
 };
 
 #endif // SDL_PLOTTER_H_

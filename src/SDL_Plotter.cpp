@@ -26,7 +26,6 @@ static int Sound(void *data){
 	Mix_Chunk *gScratch = NULL;
 	gScratch = Mix_LoadWAV( p->name.c_str() );
 
-
 	while(p->running){
 		SDL_mutexP( p->mut );
 		  SDL_CondWait(p->cond, p->mut);
@@ -51,8 +50,10 @@ SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND) {
 	SOUND = WITH_SOUND;
 	currentKeyStates = NULL;
 
-	SDL_Init(SDL_INIT_AUDIO);
+	SDL_Init(SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_VIDEO);
 	TTF_Init();
+	font = TTF_OpenFont("./font.ttf", 24);
+	if (font == NULL) cout << TTF_GetError() << endl;
 
     window   = SDL_CreateWindow("Game",
     		                     SDL_WINDOWPOS_UNDEFINED,
@@ -318,17 +319,13 @@ void SDL_Plotter::drawLine(point p1, point p2) {
 	SDL_RenderDrawLine(renderer, p1.x, p1.y, p2.x, p2.y);
 }
 
-void SDL_Plotter::write() {
-	TTF_Font* font = TTF_OpenFont("Ariel.ttf", 24);
-	if (font == NULL) cout << TTF_GetError() << endl;
+void SDL_Plotter::write(const char* message, SDL_Rect rect) {
 	SDL_Surface* surfaceMessage =
-		TTF_RenderText_Solid(font, "put your text here", {255, 255, 255}); 
+		TTF_RenderText_Solid(font, message, {255, 255, 255}); 
 
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
-	SDL_Rect Message_rect = {0, 0, 100, 100};
-
-	SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+	SDL_RenderCopy(renderer, Message, NULL, &rect);
 
 	SDL_FreeSurface(surfaceMessage);
 	SDL_DestroyTexture(Message);
