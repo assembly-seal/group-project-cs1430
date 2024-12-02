@@ -14,6 +14,7 @@
 #include <ctime>
 #include <chrono>
 #include <string>
+#include <climits>
 #include "SDL_Plotter.h"
 #include "collision.h"
 using namespace std;
@@ -29,7 +30,7 @@ using namespace std;
 #define ENEMY_SIZE 80
 #define ENEMY_SIZE_2 (ENEMY_SIZE / 2)
 #define ENEMY_CAP (WIDTH / ENEMY_SIZE / 2)
-#define SHOOTING_INTERVAL 1000.0
+#define SHOOTING_INTERVAL 500.0
 
 enum GameStatus {
 	TITLE_SCREEN,
@@ -242,6 +243,7 @@ int main() {
 
                         // handle collisions
 
+                        checkCollisions(collisions, shots, shots);
                         checkCollisions(collisions, shots, enemies);
                         checkCollisions(collisions, shots, powerups);
                         points += collisions.size() * 25;
@@ -301,10 +303,10 @@ int main() {
                         }
 
                         if (1) {//((rand() % 15) == 5) {
-                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0});
+                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0, 0});
                         }
 
-                        shots.push_back({spawnPoint, SHOT_SIZE_2, &projectile, {0, 0}});
+                        shots.push_back({spawnPoint, SHOT_SIZE_2, &projectile, {0, 0}, INT_MAX, INT_MAX});
 
                         myEvent = SHOOTING_PHASE;
 
