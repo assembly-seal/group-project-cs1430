@@ -52,8 +52,11 @@ SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND) {
 
 	SDL_Init(SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_VIDEO);
 	TTF_Init();
-	font = TTF_OpenFont("./font.ttf", 24);
-	if (font == NULL) cout << TTF_GetError() << endl;
+	if (!(font = TTF_OpenFont("./font.ttf", 24)))
+		cout << TTF_GetError() << endl;
+
+	if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0)
+		cout << Mix_GetError() << endl;
 
     window   = SDL_CreateWindow("Game",
     		                     SDL_WINDOWPOS_UNDEFINED,
@@ -69,7 +72,9 @@ SDL_Plotter::SDL_Plotter(int r, int c, bool WITH_SOUND) {
     update();
 }
 
-SDL_Plotter::~SDL_Plotter(){
+SDL_Plotter::~SDL_Plotter() {
+	Mix_Quit();
+	TTF_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();

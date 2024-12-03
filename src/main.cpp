@@ -107,23 +107,13 @@ int main() {
 
     // Data Abstraction:
     SDL_Plotter g(HEIGHT, WIDTH);
-    point p1 = {100, 100}, p2 = {200, 200};
-    point spawnPoint = {WIDTH / 2, 180};
     GameStatus myStatus = TITLE_SCREEN;
     RunEvent myEvent = MANAGE_ENEMIES;
-    double mouseX;
-    double mouseY;
-    double angle;
-    double oldRadianArmAngle;
-    int points = 0;
-    int enemiesKilled = 0;
-    int powerupsCollected = 0, shotsLeft = 1;
+    double mouseX, mouseY, angle, oldRadianArmAngle, timer;
+    int points = 0, enemiesKilled = 0, powerupsCollected = 0, shotsLeft = 1;
     chrono::steady_clock::time_point lastTime;
-    double timer;
     float deltaTime;
     string fileName;
-
-    srand(time(0));
 
     vector<Circle> shots, enemies, powerups;
     vector<Image> enemyImages;
@@ -148,22 +138,22 @@ int main() {
     //     enemyImages.push_back({g.addImage(fileName), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
     // }
 
-    enemyImages.push_back({g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C1_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C2_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C1_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C2_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C1_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E1C2_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C1_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
-    enemyImages.push_back({g.addImage("./images/E2C2_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0});
+    enemyImages = {{g.addImage("./images/E1C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C1_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C2_unbroken.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C1_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C2_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C1_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C2_cracked1.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C1_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C2_cracked2.png"), {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C1_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E1C2_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C1_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0},
+                   {g.addImage("./images/E2C2_broken.png"),   {0, 0, ENEMY_SIZE, ENEMY_SIZE}, 0.0}};
 
     lines.push_back({{0, 0}, {0, HEIGHT}});
     lines.push_back({{0, 0}, {WIDTH, 0}});
@@ -171,6 +161,11 @@ int main() {
 
     // Input:
     // Process:
+
+    srand(time(0));
+
+    g.initSound("meow");
+    g.playSound("meow");
 
     lastTime = chrono::steady_clock::now();
     while (!g.getQuit()) {
@@ -268,7 +263,7 @@ int main() {
                                 enemies.erase(enemies.begin() + i);
                                 ++enemiesKilled;
                                 // realign i with changed vec
-                                //i--;
+                                i--;
                             }
                         }
 
@@ -306,7 +301,7 @@ int main() {
                             powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0, 0});
                         }
 
-                        shots.push_back({spawnPoint, SHOT_SIZE_2, &projectile, {0, 0}, INT_MAX, INT_MAX});
+                        shots.push_back({{}, SHOT_SIZE_2, &projectile, {0, 0}, INT_MAX, INT_MAX});
 
                         myEvent = SHOOTING_PHASE;
 
