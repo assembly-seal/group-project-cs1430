@@ -164,9 +164,6 @@ int main() {
 
     srand(time(0));
 
-    g.initSound("meow");
-    g.playSound("meow");
-
     lastTime = chrono::steady_clock::now();
     while (!g.getQuit()) {
     	g.clear();
@@ -199,8 +196,8 @@ int main() {
                 switch (myEvent) {
                     case SHOOTING_PHASE:
                     
-                        shots[0].p.x = cos(radianArmAngle) * 200 + WIDTH / 2;
-                        shots[0].p.y = sin(radianArmAngle) * 200 - 60;
+                        shots.at(0).p.x = cos(radianArmAngle) * 200 + WIDTH / 2;
+                        shots.at(0).p.y = sin(radianArmAngle) * 200 - 60;
 
                         if (g.mouseClick()) {
                             oldRadianArmAngle = radianArmAngle;
@@ -215,13 +212,13 @@ int main() {
                         timer += deltaTime;
                         
                         if (shotsLeft > 0) {
-                            shots[shots.size() - 1].p.x = cos(oldRadianArmAngle) * 200 + WIDTH / 2;
-                            shots[shots.size() - 1].p.y = sin(oldRadianArmAngle) * 200 - 60;
+                            shots.at(shots.size() - 1).p.x = cos(oldRadianArmAngle) * 200 + WIDTH / 2;
+                            shots.at(shots.size() - 1).p.y = sin(oldRadianArmAngle) * 200 - 60;
                         }
 
                         if (timer >= SHOOTING_INTERVAL && shotsLeft-- > 0) {
-                            shots[shots.size() - 1].f = {0.5, oldRadianArmAngle};
-                            if (shotsLeft > 0) shots.push_back(shots[shots.size() - 1]);
+                            shots.at(shots.size() - 1).f = {0.5, oldRadianArmAngle};
+                            if (shotsLeft > 0) shots.push_back(shots.at(shots.size() - 1));
                             timer = 0.0;
                         }
                         // apply force to balls
@@ -233,7 +230,7 @@ int main() {
 
                         // remove balls that have fallen off screen
                         for (int i = 0; i < shots.size(); i++)
-                            if (shots[i].p.y > HEIGHT + SHOT_SIZE_2)
+                            if (shots.at(i).p.y > HEIGHT + SHOT_SIZE_2)
                                 shots.erase(shots.begin() + i);
 
                         // handle collisions

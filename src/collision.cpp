@@ -73,10 +73,10 @@ void handleCollisions(vector<Collision>& collisions) {
     bool prevFound = false;
 
     for (int i = 0; i < prev.size(); i++) {
-        if (prev[i].over == true)
+        if (prev.at(i).over == true)
             prev.erase(prev.begin() + i);
         else
-            prev[i].over = true;
+            prev.at(i).over = true;
     }
 
     while (collisions.size()) {
@@ -88,8 +88,8 @@ void handleCollisions(vector<Collision>& collisions) {
         double overlap  = collisions.back().overlap;
 
         for (int i = 0; i < prev.size() && !prevFound; i++) {
-            if (prev[i].c1 == &c1 && prev[i].c2 == &c2 || prev[i].c1 == &c2 && prev[i].c2 == &c1) {
-                prev[i].over = false;
+            if (prev.at(i).c1 == &c1 && prev.at(i).c2 == &c2 || prev.at(i).c1 == &c2 && prev.at(i).c2 == &c1) {
+                prev.at(i).over = false;
                 prevFound = true;
             }
         }
@@ -120,10 +120,10 @@ void handleCollisions(vector<LineCollision>& collisions) {
     bool prevFound = false;
 
     for (int i = 0; i < prev.size(); i++) {
-        if (prev[i].over == true)
+        if (prev.at(i).over == true)
             prev.erase(prev.begin() + i);
         else
-            prev[i].over = true;
+            prev.at(i).over = true;
     }
 
     while (collisions.size()) {
@@ -134,8 +134,8 @@ void handleCollisions(vector<LineCollision>& collisions) {
         double theta = 2 * lineAngle - ballDirection;
 
         for (int i = 0; i < prev.size() && !prevFound; i++) {
-            if (prev[i].c == &c && prev[i].p == &p) {
-                prev[i].over = false;
+            if (prev.at(i).c == &c && prev.at(i).p == &p) {
+                prev.at(i).over = false;
                 prevFound = true;
             }
         }
