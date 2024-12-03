@@ -171,7 +171,7 @@ public:
     SDL_Texture* addImage(const char*);
     void drawImage(Image*, SDL_Point = {0, 0});
     void drawLine(point p1, point p2);
-    void write(const char* message, SDL_Rect rect);
+    void write(const char* message, SDL_Rect rect, SDL_Color c);
 };
 
 #endif // SDL_PLOTTER_H_

@@ -114,6 +114,7 @@ int main() {
     chrono::steady_clock::time_point lastTime;
     float deltaTime;
     string fileName;
+    string message;
 
     vector<Circle> shots, enemies, powerups;
     vector<Image> enemyImages;
@@ -186,9 +187,11 @@ int main() {
 
             case GAME_RUN: {
 
+            	message = "Score: " + to_string(points);
                 g.getMouseLocation(mouseX, mouseY);
                 g.drawImage(&background);
-                g.write("test", {100, 100, 100, 20});
+                g.write(message.c_str(), {20, 25, 100, 20}, {0, 0, 0});
+                g.write(message.c_str(), {20, 20, 100, 20}, {255, 255, 255});
 
                 double radianArmAngle = clamp(atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2), 0.5, PI - 0.5);
                 arm.angle = radianArmAngle * TO_DEGREES - 90;
@@ -238,7 +241,7 @@ int main() {
                         checkCollisions(collisions, shots, shots);
                         checkCollisions(collisions, shots, enemies);
                         checkCollisions(collisions, shots, powerups);
-                        points += collisions.size() * 25;
+                        //points += collisions.size() * 25;
                         handleCollisions(collisions);
 
                         checkCollisions(lineCollisions, shots, lines);
@@ -261,6 +264,7 @@ int main() {
                                 ++enemiesKilled;
                                 // realign i with changed vec
                                 i--;
+                                points += 25;
                             }
                         }
 
@@ -294,7 +298,7 @@ int main() {
                         	}
                         }
 
-                        if (1) {//((rand() % 15) == 5) {
+                        if ((rand() % 15) == 5) {
                             powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0, 0});
                         }
 
@@ -343,6 +347,7 @@ int main() {
 
                 	enemiesKilled = 0;
                 	powerupsCollected = 0;
+                	points = 0;
                 }
 
                 break;

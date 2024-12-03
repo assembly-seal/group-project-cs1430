@@ -324,9 +324,9 @@ void SDL_Plotter::drawLine(point p1, point p2) {
 	SDL_RenderDrawLine(renderer, p1.x, p1.y, p2.x, p2.y);
 }
 
-void SDL_Plotter::write(const char* message, SDL_Rect rect) {
+void SDL_Plotter::write(const char* message, SDL_Rect rect, SDL_Color c) {
 	SDL_Surface* surfaceMessage =
-		TTF_RenderText_Solid(font, message, {255, 255, 255}); 
+		TTF_RenderText_Solid(font, message, c);
 
 	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
