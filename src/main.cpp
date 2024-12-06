@@ -122,7 +122,7 @@ int main() {
     vector<Collision> collisions {};
     vector<LineCollision> lineCollisions {};
 
-    Image titleScreen = {g.addImage("./images/titlescreen_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image titleScreen = {g.addImage("./images/titlescreen.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image endScreen   = {g.addImage("./images/gameover_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm         = {g.addImage("./images/arm.png"), {WIDTH / 2 - 113, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
