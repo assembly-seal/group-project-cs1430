@@ -62,7 +62,7 @@ void checkCollisions(vector<LineCollision>& collisions, vector<Circle>& circles,
                 };
 
                 if (areColliding(c, proj))
-                    collisions.push_back({c, proj, l.angle()});
+                    collisions.push_back({c, proj, l.angle(), l.id});
             }
         }
     }
@@ -88,14 +88,14 @@ void handleCollisions(vector<Collision>& collisions) {
         double overlap  = collisions.back().overlap;
 
         for (int i = 0; i < prev.size() && !prevFound; i++) {
-            if (prev.at(i).c1 == &c1 && prev.at(i).c2 == &c2 || prev.at(i).c1 == &c2 && prev.at(i).c2 == &c1) {
+            if (prev.at(i).id1 == c1.id && prev.at(i).id2 == c2.id || prev.at(i).id2 == c1.id && prev.at(i).id1 == c2.id) {
                 prev.at(i).over = false;
                 prevFound = true;
             }
         }
 
         if (!prevFound) {
-            prev.push_back({&c1, &c2});
+            prev.push_back({c1.id, c2.id});
 
             if (c2.currentHealth > 0) {
                 double angleBetween = atan2(c1.p.y - c2.p.y, c1.p.x - c2.p.x);
@@ -129,19 +129,20 @@ void handleCollisions(vector<LineCollision>& collisions) {
     while (collisions.size()) {
         Circle& c = collisions.back().c;
         point& p = collisions.back().p;
+        int pid = collisions.back().pid;
         double lineAngle = collisions.back().lineAngle;
         double ballDirection = c.f.getDirection() + PI;
         double theta = 2 * lineAngle - ballDirection;
 
         for (int i = 0; i < prev.size() && !prevFound; i++) {
-            if (prev.at(i).c == &c && prev.at(i).p == &p) {
+            if (prev.at(i).id1 == c.id && prev.at(i).id2 == pid) {
                 prev.at(i).over = false;
                 prevFound = true;
             }
         }
 
         if (!prevFound) {
-            prev.push_back({&c, &p});
+            prev.push_back({c.id, pid});
             c.f.setDirection(atan2(-sin(theta), -cos(theta)));
             c.f.setMagnitude(c.f.getMagnitude() * 0.8);
         }

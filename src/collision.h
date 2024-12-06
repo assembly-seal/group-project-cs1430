@@ -22,17 +22,18 @@ struct LineCollision {
     Circle& c;
     point p;
     double lineAngle;
+    int pid;
 };
 
 struct prevCollision {
-    Circle* c1;
-    Circle* c2;
+    int id1;
+    int id2;
     bool over = false;
 };
 
 struct prevLineCollision {
-    Circle* c;
-    point* p;
+    int id1;
+    int id2;
     bool over = false;
 };
 

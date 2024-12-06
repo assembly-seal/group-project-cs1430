@@ -12,10 +12,12 @@ struct Circle {
     force f;
     int initialHealth;
     int currentHealth;
+    int id;
 };
 
 struct Line {
     point p1, p2;
+    int id;
     /* desc: find the length of a line
     * return: double
     * pre: two valid points

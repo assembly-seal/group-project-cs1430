@@ -130,6 +130,7 @@ int main() {
     float deltaTime;
     string fileName;
     string message;
+    int nextId = 0, nextLId = 0;
 
     vector<Circle> shots, enemies, powerups;
     vector<Collision> collisions {};
@@ -162,9 +163,9 @@ int main() {
     };
 
     vector<Line> lines = {
-        {{0, 0}, {0, HEIGHT}},
-        {{0, 0}, {WIDTH, 0}},
-        {{WIDTH, 0}, {WIDTH, HEIGHT}}
+        {{0, 0}, {0, HEIGHT}, nextLId++},
+        {{0, 0}, {WIDTH, 0}, nextLId++},
+        {{WIDTH, 0}, {WIDTH, HEIGHT}, nextLId++}
     };
 
     // Input:
@@ -295,7 +296,8 @@ int main() {
                                                &enemyImages.at(rand() % 4),
                                                {},
                                                health,
-											   health});
+											   health,
+                                               nextId++});
                         }
 
                         for (Circle& i : enemies) {
@@ -305,10 +307,10 @@ int main() {
                         }
 
                         if ((rand() % 15) == 5) {
-                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0, 0});
+                            powerups.push_back({getUniqueRandomPoint(enemies), 25, &powerup, {}, 0, 0, nextId++});
                         }
 
-                        shots.push_back({{}, SHOT_SIZE_2, &projectile, {0, 0}, INT_MAX, INT_MAX});
+                        shots.push_back({{}, SHOT_SIZE_2, &projectile, {0, 0}, INT_MAX, INT_MAX, nextId++});
 
                         myEvent = SHOOTING_PHASE;
 
