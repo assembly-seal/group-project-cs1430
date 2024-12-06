@@ -69,15 +69,15 @@ void checkCollisions(vector<LineCollision>& collisions, vector<Circle>& circles,
 }
 
 void handleCollisions(vector<Collision>& collisions) {
-    // static vector<prevCollision> prev;
-    // bool prevFound = false;
+    static vector<prevCollision> prev;
+    bool prevFound = false;
 
-    // for (int i = 0; i < prev.size(); i++) {
-    //     if (prev.at(i).over == true)
-    //         prev.erase(prev.begin() + i);
-    //     else
-    //         prev.at(i).over = true;
-    // }
+    for (int i = 0; i < prev.size(); i++) {
+        if (prev.at(i).over == true)
+            prev.erase(prev.begin() + i);
+        else
+            prev.at(i).over = true;
+    }
 
     while (collisions.size()) {
         Circle& c1      = collisions.back().c1;
@@ -87,15 +87,15 @@ void handleCollisions(vector<Collision>& collisions) {
         double distance = collisions.back().distance;
         double overlap  = collisions.back().overlap;
 
-        // for (int i = 0; i < prev.size() && !prevFound; i++) {
-        //     if (prev.at(i).c1 == &c1 && prev.at(i).c2 == &c2 || prev.at(i).c1 == &c2 && prev.at(i).c2 == &c1) {
-        //         prev.at(i).over = false;
-        //         prevFound = true;
-        //     }
-        // }
+        for (int i = 0; i < prev.size() && !prevFound; i++) {
+            if (prev.at(i).c1 == &c1 && prev.at(i).c2 == &c2 || prev.at(i).c1 == &c2 && prev.at(i).c2 == &c1) {
+                prev.at(i).over = false;
+                prevFound = true;
+            }
+        }
 
-        // if (!prevFound) {
-        //     prev.push_back({&c1, &c2});
+        if (!prevFound) {
+            prev.push_back({&c1, &c2});
 
             if (c2.currentHealth > 0) {
                 double angleBetween = atan2(c1.p.y - c2.p.y, c1.p.x - c2.p.x);
@@ -108,23 +108,23 @@ void handleCollisions(vector<Collision>& collisions) {
             }
             
             c2.currentHealth--;
-        // }
+        }
 
-        // prevFound = false;
+        prevFound = false;
         collisions.pop_back();
     }
 }
 
 void handleCollisions(vector<LineCollision>& collisions) {
-    // static vector<prevLineCollision> prev;
-    // bool prevFound = false;
+    static vector<prevLineCollision> prev;
+    bool prevFound = false;
 
-    // for (int i = 0; i < prev.size(); i++) {
-    //     if (prev.at(i).over == true)
-    //         prev.erase(prev.begin() + i);
-    //     else
-    //         prev.at(i).over = true;
-    // }
+    for (int i = 0; i < prev.size(); i++) {
+        if (prev.at(i).over == true)
+            prev.erase(prev.begin() + i);
+        else
+            prev.at(i).over = true;
+    }
 
     while (collisions.size()) {
         Circle& c = collisions.back().c;
@@ -133,20 +133,20 @@ void handleCollisions(vector<LineCollision>& collisions) {
         double ballDirection = c.f.getDirection() + PI;
         double theta = 2 * lineAngle - ballDirection;
 
-        // for (int i = 0; i < prev.size() && !prevFound; i++) {
-        //     if (prev.at(i).c == &c && prev.at(i).p == &p) {
-        //         prev.at(i).over = false;
-        //         prevFound = true;
-        //     }
-        // }
+        for (int i = 0; i < prev.size() && !prevFound; i++) {
+            if (prev.at(i).c == &c && prev.at(i).p == &p) {
+                prev.at(i).over = false;
+                prevFound = true;
+            }
+        }
 
-        //if (!prevFound) {
-            // prev.push_back({&c, &p});
+        if (!prevFound) {
+            prev.push_back({&c, &p});
             c.f.setDirection(atan2(-sin(theta), -cos(theta)));
             c.f.setMagnitude(c.f.getMagnitude() * 0.8);
-        // }
+        }
 
-        // prevFound = false;
+        prevFound = false;
         collisions.pop_back();
     }
 }
