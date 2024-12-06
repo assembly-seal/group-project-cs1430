@@ -1,3 +1,12 @@
+/*
+ * Author: Caden Sullivan
+ * Assignment Title: Group Project
+ * Assignment Description: Version of Falling Balls
+ * Due Date: 12/08/2024
+ * Date Created: 11/01/24
+ * Date Last Modified: 12/06/2024
+ */
+
 #include "distance.h"
 
 double getDistance(int xDist, int yDist) {

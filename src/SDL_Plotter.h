@@ -166,6 +166,9 @@ public:
     Uint32 getColor(int x, int y);
 
     /* FUNCTIONS ADDED BY CADEN */
+
+    //FIXME: Add descriptions
+
     void setColor(color);
     void drawCircle(point, int);
     SDL_Texture* addImage(const char*);

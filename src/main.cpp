@@ -3,9 +3,9 @@
  *         Elijah Robledo, Ava Callais
  * Assignment Title: Group Project
  * Assignment Description: Version of Falling Balls
- * Due Date: ??/??/??
- * Date Created: 11/1/24
- * Date Last Modified: 11/1/24
+ * Due Date: 12/08/2024
+ * Date Created: 11/01/24
+ * Date Last Modified: 12/06/2024
  */
 
 #include <iostream>
@@ -80,7 +80,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
  */
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.5 + 1) + (enemiesKilled + 4);
+	health = rand() % static_cast<int>(enemiesKilled * 0.3 + 1) + (enemiesKilled + 4);
 	return health;
 }
 
@@ -137,7 +137,7 @@ int main() {
     vector<LineCollision> lineCollisions {};
 
     Image titleScreen = {g.addImage("./images/titlescreen.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
-    Image endScreen   = {g.addImage("./images/gameover_temp.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
+    Image endScreen   = {g.addImage("./images/gameover.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image arm         = {g.addImage("./images/arm.png"), {WIDTH / 2 - 113, -60, 225, 225}, 0.0};
     Image background  = {g.addImage("./images/bg.png"), {0, 0, WIDTH, HEIGHT}, 0.0};
     Image projectile  = {g.addImage("./images/projectile.png"), {WIDTH / 2 - 30, 100, static_cast<int>(SHOT_IMAGE_SIZE), static_cast<int>(SHOT_IMAGE_SIZE)}, 0.0};
@@ -168,8 +168,7 @@ int main() {
         {{WIDTH, 0}, {WIDTH, HEIGHT}, nextLId++}
     };
 
-    // Input:
-    // Process:
+    // Input/Process/Output:
 
     srand(time(0));
 
@@ -186,7 +185,7 @@ int main() {
                 // Code to display title screen    
                 g.drawImage(&titleScreen);
                 
-                // Press a key (for now "e") to start
+                // Press a "e" to start
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
                 }
@@ -199,8 +198,8 @@ int main() {
                 for (int i = 0; i < 20 - message.size(); i++) message += " ";
                 g.getMouseLocation(mouseX, mouseY);
                 g.drawImage(&background);
-                g.write(message.c_str(), {20, 25, 190, 35}, {0, 0, 0});
-                g.write(message.c_str(), {20, 20, 190, 35}, {255, 255, 255});
+                g.write(message.c_str(), {20, 25, 190, 25}, {0, 0, 0});
+                g.write(message.c_str(), {20, 20, 190, 25}, {255, 255, 255});
 
                 double radianArmAngle = clamp(atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2), 0.5, PI - 0.5);
                 arm.angle = radianArmAngle * TO_DEGREES - 90;
@@ -345,7 +344,16 @@ int main() {
 
                 myEvent = MANAGE_ENEMIES;
 
-                // Display final score
+                if (points < 1000) {
+                	g.write(message.c_str(), {WIDTH / 2 - 140, HEIGHT / 2, 450, 45}, {255, 0, 0});
+                }
+                else if (points < 5000) {
+                	g.write(message.c_str(), {WIDTH / 2 - 140, HEIGHT / 2, 450, 45}, {255, 255, 0});
+                }
+                else {
+                	g.write(message.c_str(), {WIDTH / 2 - 140, HEIGHT / 2, 450, 45}, {0, 255, 0});
+                }
+
                 if (g.getKey() == 'e') {
                     myStatus = GAME_RUN;
 
@@ -357,19 +365,12 @@ int main() {
                 	powerupsCollected = 0;
                 	points = 0;
                 }
-
-                break;
         }
 
         g.update();
     }
 
     // Output:
-
-    cout << "SCORE: " << points << endl;
-    
-    // Assumptions:
-    // we get the project done
     
     return 0;
 }
