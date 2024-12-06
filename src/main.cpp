@@ -188,10 +188,11 @@ int main() {
             case GAME_RUN: {
 
             	message = "Score: " + to_string(points);
+                for (int i = 0; i < 20 - message.size(); i++) message += " ";
                 g.getMouseLocation(mouseX, mouseY);
                 g.drawImage(&background);
-                g.write(message.c_str(), {20, 25, 100, 20}, {0, 0, 0});
-                g.write(message.c_str(), {20, 20, 100, 20}, {255, 255, 255});
+                g.write(message.c_str(), {20, 25, 190, 35}, {0, 0, 0});
+                g.write(message.c_str(), {20, 20, 190, 35}, {255, 255, 255});
 
                 double radianArmAngle = clamp(atan2(mouseY - arm.rect.y, mouseX - arm.rect.x - arm.rect.w / 2), 0.5, PI - 0.5);
                 arm.angle = radianArmAngle * TO_DEGREES - 90;
