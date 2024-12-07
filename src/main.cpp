@@ -80,7 +80,7 @@ point getUniqueRandomPoint(vector<Circle>& circles) {
  */
 int generateHealth(int enemiesKilled) {
 	int health;
-	health = rand() % static_cast<int>(enemiesKilled * 0.3 + 1) + (enemiesKilled + 4);
+	health = rand() % static_cast<int>(enemiesKilled * 0.2 + 1) + (enemiesKilled + 4);
 	return health;
 }
 
@@ -234,7 +234,7 @@ int main() {
                         }
                         // apply force to balls
                         for (Circle& i : shots) {
-                            i.f.apply(force(0.001, PI_2));
+                            i.f.apply(force(0.005, PI_2));
                             i.p.x += cos(i.f.getDirection()) * i.f.getMagnitude() * deltaTime;
                             i.p.y += sin(i.f.getDirection()) * i.f.getMagnitude() * deltaTime;
                         }

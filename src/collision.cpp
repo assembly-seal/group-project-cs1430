@@ -103,6 +103,7 @@ void handleCollisions(vector<Collision>& collisions) {
             }
         }
 
+
         if (!prevFound) {
             prev.push_back({c1.id, c2.id});
 
