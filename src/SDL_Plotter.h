@@ -167,13 +167,47 @@ public:
 
     /* FUNCTIONS ADDED BY CADEN */
 
-    //FIXME: Add descriptions
-
+    
+/* desc: set renderer color
+* return: void
+* pre: valid color
+* post: renderer color set
+*/
     void setColor(color);
+
+/* desc: draw a circle on screen
+ * return: void
+ * pre: valid point and radius
+ * post: circle is drawn
+ */
     void drawCircle(point, int);
+
+/* desc: create an sdl texture from an image
+ * return: SDL_Texture*
+ * pre: string pointing to a valid image file
+ * post: a useable image is added and its address is given
+ */
     SDL_Texture* addImage(const char*);
+
+/* desc: draw an image to the screen
+ * return: void
+ * pre: valid image, valid point
+ * post: image is drawn
+ */
     void drawImage(Image*, SDL_Point = {0, 0});
+
+/* desc: draw a line between two points on the screen
+ * return: void
+ * pre: 2 valid points
+ * post: line drawn
+ */
     void drawLine(point p1, point p2);
+
+/* desc: write text to the screen
+ * return: void
+ * pre: valid string for message, valid rect, valid color
+ * post: text written to screen
+ */
     void write(const char* message, SDL_Rect rect, SDL_Color c);
 };
 
